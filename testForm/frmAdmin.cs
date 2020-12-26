@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using System.IO;
+using System.Data.SqlClient;
 
 namespace testForm
 {
@@ -42,7 +43,8 @@ namespace testForm
         private void frmAdmin_Load(object sender, EventArgs e)
         {
             //reload all lists
-            
+            UpdateUsersList();
+            UpdateLessonsList();
         }
 
         private void lstStudents_SelectedIndexChanged(object sender, EventArgs e)
@@ -86,8 +88,8 @@ namespace testForm
             uploadSchDiag.ShowDialog();
             int[,] schedule = new int[7, 5];
             string scheduleFile = uploadSchDiag.FileName;
-            StreamReader reader = new StreamReader(scheduleFile);            
-            
+            StreamReader reader = new StreamReader(scheduleFile);
+
             int i = 0;
             while (!reader.EndOfStream && i < 7)
             {
@@ -111,6 +113,197 @@ namespace testForm
             {
                 MessageBox.Show("You have not selected a user from the list!");
             }
+
+        }
+        private void UpdateUsersList()
+        {
+            lstUsers.Items.Clear();
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.DataSource = "192.168.0.30";
+            builder.UserID = "SA";
+            builder.Password = "CYrulis2002";
+            builder.InitialCatalog = "attendanceDB";
+
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+
+                String sql = "SELECT UserName, FirstName, LastName, UserRole, IsLoggedIn FROM dbo.Users";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            //Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
+                            ListViewItem user = new ListViewItem(reader.GetString(0));
+                            user.SubItems.Add(reader.GetString(1));
+                            user.SubItems.Add(reader.GetString(2));
+                            user.SubItems.Add(reader.GetString(3));
+                            user.SubItems.Add(reader.GetBoolean(4).ToString());
+                            lstUsers.Items.Add(user);
+                        }
+                        reader.Close();
+                    }
+                    connection.Close();
+                }
+            }
+        }
+
+        private void UpdateLessonsList()
+        {
+            lstLessons.Items.Clear();
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.DataSource = "192.168.0.30";
+            builder.UserID = "SA";
+            builder.Password = "CYrulis2002";
+            builder.InitialCatalog = "attendanceDB";
+
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                String sql = "SELECT LessonID, LessonName FROM dbo.Lessons";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            //Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
+                            int x = (byte)reader[0];
+                            ListViewItem lesson = new ListViewItem(x.ToString());
+                            lesson.SubItems.Add(reader.GetString(1));
+                            lstLessons.Items.Add(lesson);
+                        }
+                        reader.Close();
+                    }
+                    connection.Close();
+                }
+            }
+        }
+
+        private void btnAddLesson_Click(object sender, EventArgs e)
+        {
+            int id;
+            if (!int.TryParse(txtLessonID.Text, out id) || txtLesson.Text == null)
+            {
+                MessageBox.Show("The Lesson ID must be an Integer and the Name must not be Null.");
+            }
+            else
+            {
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = "192.168.0.30";
+                builder.UserID = "SA";
+                builder.Password = "CYrulis2002";
+                builder.InitialCatalog = "attendanceDB";
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
+                    String sql = "Insert into Lessons (LessonID, LessonName) Values(" + txtLessonID.Text + ", '" + txtLesson.Text + "');";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                }
+                MessageBox.Show("Lesson added successfuly.");
+                UpdateLessonsList();
+            }
+        }
+
+        private void tabLessons_Click(object sender, EventArgs e)
+        {
+            //maybe refresh list here
+        }
+
+        private void btnDelLesson_Click(object sender, EventArgs e)
+        {
+            if (lstLessons.Items.Count > 0)
+            {
+                string lessonToDelete = lstLessons.SelectedItems[0].Text;
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = "192.168.0.30";
+                builder.UserID = "SA";
+                builder.Password = "CYrulis2002";
+                builder.InitialCatalog = "attendanceDB";
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
+                    String sql = "DELETE FROM Lessons WHERE LessonID=" + lessonToDelete + ";";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                }
+                MessageBox.Show("Lesson removed successfuly.");
+                UpdateLessonsList();
+            }
+        }
+
+        private void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            string username = lstUsers.SelectedItems[0].Text;
+            string input = Interaction.InputBox("Type the new password below:", "Changing Password for " + username, "", 0, 0);
+            string confirm = Interaction.InputBox("Repeat the new password below:", "Changing Password for " + username, "", 0, 0);
+            if (input == confirm)
+            {
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = "192.168.0.30";
+                builder.UserID = "SA";
+                builder.Password = "CYrulis2002";
+                builder.InitialCatalog = "attendanceDB";
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
+                    String sql = "UPDATE Users SET UserPassword='" + input + "' WHERE UserName='" + username + "';";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                }
+                MessageBox.Show("Password for " + username + " changed successfuly.");
+            }
+            else
+                MessageBox.Show("Passwords Do Not Match!");
+        }
+
+        private void btnAddGroup_Click(object sender, EventArgs e)
+        {
+            if (txtGroup.Text == null)
+            {
+                MessageBox.Show("The Group ID must not be Null.");
+            }
+            else
+            {
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = "192.168.0.30";
+                builder.UserID = "SA";
+                builder.Password = "CYrulis2002";
+                builder.InitialCatalog = "attendanceDB";
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
+                    String sql = "Insert into Groups (GroupID) Values('" + txtGroup.Text + "');";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                }
+                MessageBox.Show("Group added successfuly.");
+                UpdateGroupsList();
+            }
+        }
+        private void UpdateGroupsList()
+        {
 
         }
     }
