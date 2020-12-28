@@ -45,6 +45,7 @@ namespace testForm
             //reload all lists
             UpdateUsersList();
             UpdateLessonsList();
+            UpdateGroupsList();
         }
 
         private void lstStudents_SelectedIndexChanged(object sender, EventArgs e)
@@ -139,7 +140,10 @@ namespace testForm
                             //Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
                             ListViewItem user = new ListViewItem(reader.GetString(0));
                             user.SubItems.Add(reader.GetString(1));
-                            user.SubItems.Add(reader.GetString(2));
+                            if (!reader.IsDBNull(2))
+                            {
+                                user.SubItems.Add(reader.GetString(2));
+                            }
                             user.SubItems.Add(reader.GetString(3));
                             user.SubItems.Add(reader.GetBoolean(4).ToString());
                             lstUsers.Items.Add(user);
@@ -304,7 +308,73 @@ namespace testForm
         }
         private void UpdateGroupsList()
         {
+            lstGroups.Items.Clear();
+            cmbInitialGroup.Items.Clear();
+            cmbFinalGroup.Items.Clear();
+            cmbGroups.Items.Clear();
+            cmbAbsentGroups.Items.Clear();
+            cmbMentors.Items.Clear();
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.DataSource = "192.168.0.30";
+            builder.UserID = "SA";
+            builder.Password = "CYrulis2002";
+            builder.InitialCatalog = "attendanceDB";
 
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                String sql = "SELECT GroupID, TeacherRep FROM dbo.Groups";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ListViewItem group = new ListViewItem(reader.GetString(0));
+                            cmbGroups.Items.Add(reader.GetString(0));
+                            cmbInitialGroup.Items.Add(reader.GetString(0));
+                            cmbMentors.Items.Add(reader.GetString(0));
+                            cmbAbsentGroups.Items.Add(reader.GetString(0));
+                            cmbFinalGroup.Items.Add(reader.GetString(0));
+                            if (!reader.IsDBNull(1))
+                            {
+                                group.SubItems.Add(reader.GetString(1));
+                            }
+                            lstGroups.Items.Add(group);
+                        }
+                        reader.Close();
+                    }
+                    connection.Close();
+                }
+            }
+        }
+
+        private void btnMentorSet_Click(object sender, EventArgs e)
+        {
+            string group = cmbMentors.Text;
+            string userSelected = lstUsers.SelectedItems[0].Text;
+            if (group != null)
+            {
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = "192.168.0.30";
+                builder.UserID = "SA";
+                builder.Password = "CYrulis2002";
+                builder.InitialCatalog = "attendanceDB";
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
+                    String sql = "UPDATE Groups SET TeacherRep = '" + userSelected + "' WHERE GroupID='" + group + "';";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                }
+                MessageBox.Show("Group properties saved successfuly.");
+                UpdateGroupsList(); //maybe
+            }
         }
     }
 }

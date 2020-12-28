@@ -88,10 +88,10 @@
             this.txtGroup = new System.Windows.Forms.TextBox();
             this.lstGroups = new System.Windows.Forms.ListView();
             this.columnGrp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnMentorFirst = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnMentorLast = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnMentorUser = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnnoOfStudents = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.usersPage = new System.Windows.Forms.TabPage();
+            this.cmbMentors = new System.Windows.Forms.ComboBox();
             this.btnMentorSet = new System.Windows.Forms.Button();
             this.btnChangePassword = new System.Windows.Forms.Button();
             this.btnSchedule = new System.Windows.Forms.Button();
@@ -100,23 +100,22 @@
             this.usernameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.firstNameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lastNameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.userRoleCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.loggedInCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabLessons = new System.Windows.Forms.TabPage();
+            this.label10 = new System.Windows.Forms.Label();
+            this.btnDelLesson = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtLessonID = new System.Windows.Forms.TextBox();
+            this.btnAddLesson = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtLesson = new System.Windows.Forms.TextBox();
             this.lstLessons = new System.Windows.Forms.ListView();
             this.columnLessonID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLessonName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnFeedPost = new System.Windows.Forms.Button();
             this.uploadSchDiag = new System.Windows.Forms.OpenFileDialog();
-            this.userRoleCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.loggedInCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnAddLesson = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtLesson = new System.Windows.Forms.TextBox();
-            this.btnDelLesson = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.txtLessonID = new System.Windows.Forms.TextBox();
-            this.cmbMentors = new System.Windows.Forms.ComboBox();
             this.adminTabs.SuspendLayout();
             this.tabAbsences.SuspendLayout();
             this.tabStudents.SuspendLayout();
@@ -618,8 +617,7 @@
             // 
             this.lstGroups.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnGrp,
-            this.columnMentorFirst,
-            this.columnMentorLast,
+            this.columnMentorUser,
             this.columnnoOfStudents});
             this.lstGroups.HideSelection = false;
             this.lstGroups.Location = new System.Drawing.Point(7, 7);
@@ -634,15 +632,10 @@
             this.columnGrp.Text = "Group";
             this.columnGrp.Width = 48;
             // 
-            // columnMentorFirst
+            // columnMentorUser
             // 
-            this.columnMentorFirst.Text = "Teacher Rep First Name";
-            this.columnMentorFirst.Width = 134;
-            // 
-            // columnMentorLast
-            // 
-            this.columnMentorLast.Text = "Teacher Rep Last Name";
-            this.columnMentorLast.Width = 134;
+            this.columnMentorUser.Text = "Teacher Rep UserName";
+            this.columnMentorUser.Width = 134;
             // 
             // columnnoOfStudents
             // 
@@ -667,6 +660,14 @@
             this.usersPage.UseVisualStyleBackColor = true;
             this.usersPage.Click += new System.EventHandler(this.usersPage_Click);
             // 
+            // cmbMentors
+            // 
+            this.cmbMentors.FormattingEnabled = true;
+            this.cmbMentors.Location = new System.Drawing.Point(606, 105);
+            this.cmbMentors.Name = "cmbMentors";
+            this.cmbMentors.Size = new System.Drawing.Size(129, 21);
+            this.cmbMentors.TabIndex = 6;
+            // 
             // btnMentorSet
             // 
             this.btnMentorSet.Location = new System.Drawing.Point(605, 132);
@@ -675,6 +676,7 @@
             this.btnMentorSet.TabIndex = 5;
             this.btnMentorSet.Text = "Assign Group";
             this.btnMentorSet.UseVisualStyleBackColor = true;
+            this.btnMentorSet.Click += new System.EventHandler(this.btnMentorSet_Click);
             // 
             // btnChangePassword
             // 
@@ -740,6 +742,15 @@
             this.lastNameColumn.Text = "Last Name";
             this.lastNameColumn.Width = 101;
             // 
+            // userRoleCol
+            // 
+            this.userRoleCol.Text = "Role";
+            // 
+            // loggedInCol
+            // 
+            this.loggedInCol.Text = "Is Logged In";
+            this.loggedInCol.Width = 84;
+            // 
             // tabLessons
             // 
             this.tabLessons.Controls.Add(this.label10);
@@ -754,6 +765,82 @@
             this.tabLessons.Text = "Lessons Management";
             this.tabLessons.UseVisualStyleBackColor = true;
             this.tabLessons.Click += new System.EventHandler(this.tabLessons_Click);
+            // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(482, 169);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(218, 35);
+            this.label10.TabIndex = 9;
+            this.label10.Text = "Deleting a Lesson will also remove all Teaching Data assosiated with it.";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnDelLesson
+            // 
+            this.btnDelLesson.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnDelLesson.Location = new System.Drawing.Point(539, 207);
+            this.btnDelLesson.Name = "btnDelLesson";
+            this.btnDelLesson.Size = new System.Drawing.Size(106, 23);
+            this.btnDelLesson.TabIndex = 8;
+            this.btnDelLesson.Text = "Delete Lesson";
+            this.btnDelLesson.UseVisualStyleBackColor = true;
+            this.btnDelLesson.Click += new System.EventHandler(this.btnDelLesson_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Controls.Add(this.txtLessonID);
+            this.groupBox3.Controls.Add(this.btnAddLesson);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.txtLesson);
+            this.groupBox3.Location = new System.Drawing.Point(464, 17);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(259, 123);
+            this.groupBox3.TabIndex = 7;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Add Lesson";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(32, 27);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(58, 13);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "Lesson ID:";
+            // 
+            // txtLessonID
+            // 
+            this.txtLessonID.Location = new System.Drawing.Point(96, 24);
+            this.txtLessonID.Name = "txtLessonID";
+            this.txtLessonID.Size = new System.Drawing.Size(140, 20);
+            this.txtLessonID.TabIndex = 6;
+            // 
+            // btnAddLesson
+            // 
+            this.btnAddLesson.Location = new System.Drawing.Point(89, 85);
+            this.btnAddLesson.Name = "btnAddLesson";
+            this.btnAddLesson.Size = new System.Drawing.Size(75, 23);
+            this.btnAddLesson.TabIndex = 1;
+            this.btnAddLesson.Text = "Add Lesson";
+            this.btnAddLesson.UseVisualStyleBackColor = true;
+            this.btnAddLesson.Click += new System.EventHandler(this.btnAddLesson_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(15, 53);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(75, 13);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "Lesson Name:";
+            // 
+            // txtLesson
+            // 
+            this.txtLesson.Location = new System.Drawing.Point(96, 50);
+            this.txtLesson.Name = "txtLesson";
+            this.txtLesson.Size = new System.Drawing.Size(140, 20);
+            this.txtLesson.TabIndex = 2;
             // 
             // lstLessons
             // 
@@ -794,99 +881,6 @@
             // 
             this.uploadSchDiag.DefaultExt = "csv";
             this.uploadSchDiag.InitialDirectory = "C:\\Users\\";
-            // 
-            // userRoleCol
-            // 
-            this.userRoleCol.Text = "Role";
-            // 
-            // loggedInCol
-            // 
-            this.loggedInCol.Text = "Is Logged In";
-            this.loggedInCol.Width = 84;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.txtLessonID);
-            this.groupBox3.Controls.Add(this.btnAddLesson);
-            this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.txtLesson);
-            this.groupBox3.Location = new System.Drawing.Point(464, 17);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(259, 123);
-            this.groupBox3.TabIndex = 7;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Add Lesson";
-            // 
-            // btnAddLesson
-            // 
-            this.btnAddLesson.Location = new System.Drawing.Point(89, 85);
-            this.btnAddLesson.Name = "btnAddLesson";
-            this.btnAddLesson.Size = new System.Drawing.Size(75, 23);
-            this.btnAddLesson.TabIndex = 1;
-            this.btnAddLesson.Text = "Add Lesson";
-            this.btnAddLesson.UseVisualStyleBackColor = true;
-            this.btnAddLesson.Click += new System.EventHandler(this.btnAddLesson_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(15, 53);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(75, 13);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "Lesson Name:";
-            // 
-            // txtLesson
-            // 
-            this.txtLesson.Location = new System.Drawing.Point(96, 50);
-            this.txtLesson.Name = "txtLesson";
-            this.txtLesson.Size = new System.Drawing.Size(140, 20);
-            this.txtLesson.TabIndex = 2;
-            // 
-            // btnDelLesson
-            // 
-            this.btnDelLesson.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnDelLesson.Location = new System.Drawing.Point(539, 207);
-            this.btnDelLesson.Name = "btnDelLesson";
-            this.btnDelLesson.Size = new System.Drawing.Size(106, 23);
-            this.btnDelLesson.TabIndex = 8;
-            this.btnDelLesson.Text = "Delete Lesson";
-            this.btnDelLesson.UseVisualStyleBackColor = true;
-            this.btnDelLesson.Click += new System.EventHandler(this.btnDelLesson_Click);
-            // 
-            // label10
-            // 
-            this.label10.Location = new System.Drawing.Point(482, 169);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(218, 35);
-            this.label10.TabIndex = 9;
-            this.label10.Text = "Deleting a Lesson will also remove all Teaching Data assosiated with it.";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(32, 27);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(58, 13);
-            this.label11.TabIndex = 7;
-            this.label11.Text = "Lesson ID:";
-            // 
-            // txtLessonID
-            // 
-            this.txtLessonID.Location = new System.Drawing.Point(96, 24);
-            this.txtLessonID.Name = "txtLessonID";
-            this.txtLessonID.Size = new System.Drawing.Size(140, 20);
-            this.txtLessonID.TabIndex = 6;
-            // 
-            // cmbMentors
-            // 
-            this.cmbMentors.FormattingEnabled = true;
-            this.cmbMentors.Location = new System.Drawing.Point(606, 105);
-            this.cmbMentors.Name = "cmbMentors";
-            this.cmbMentors.Size = new System.Drawing.Size(129, 21);
-            this.cmbMentors.TabIndex = 6;
             // 
             // frmAdmin
             // 
@@ -979,8 +973,7 @@
         private System.Windows.Forms.Button btnAddGroup;
         private System.Windows.Forms.ListView lstGroups;
         private System.Windows.Forms.ColumnHeader columnGrp;
-        private System.Windows.Forms.ColumnHeader columnMentorFirst;
-        private System.Windows.Forms.ColumnHeader columnMentorLast;
+        private System.Windows.Forms.ColumnHeader columnMentorUser;
         private System.Windows.Forms.ColumnHeader columnnoOfStudents;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label5;
