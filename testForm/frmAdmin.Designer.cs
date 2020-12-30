@@ -116,6 +116,7 @@
             this.columnLessonName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnFeedPost = new System.Windows.Forms.Button();
             this.uploadSchDiag = new System.Windows.Forms.OpenFileDialog();
+            this.uploadStudentsDiag = new System.Windows.Forms.OpenFileDialog();
             this.adminTabs.SuspendLayout();
             this.tabAbsences.SuspendLayout();
             this.tabStudents.SuspendLayout();
@@ -369,6 +370,7 @@
             this.btnUploadStudents.TabIndex = 6;
             this.btnUploadStudents.Text = "Upload All Students";
             this.btnUploadStudents.UseVisualStyleBackColor = true;
+            this.btnUploadStudents.Click += new System.EventHandler(this.btnUploadStudents_Click);
             // 
             // btnDisGroup
             // 
@@ -619,6 +621,8 @@
             this.columnGrp,
             this.columnMentorUser,
             this.columnnoOfStudents});
+            this.lstGroups.FullRowSelect = true;
+            this.lstGroups.GridLines = true;
             this.lstGroups.HideSelection = false;
             this.lstGroups.Location = new System.Drawing.Point(7, 7);
             this.lstGroups.Name = "lstGroups";
@@ -882,6 +886,11 @@
             this.uploadSchDiag.DefaultExt = "csv";
             this.uploadSchDiag.InitialDirectory = "C:\\Users\\";
             // 
+            // uploadStudentsDiag
+            // 
+            this.uploadStudentsDiag.DefaultExt = "csv";
+            this.uploadStudentsDiag.InitialDirectory = "C:\\Users\\";
+            // 
             // frmAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1001,5 +1010,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtLessonID;
         private System.Windows.Forms.ComboBox cmbMentors;
+        private System.Windows.Forms.OpenFileDialog uploadStudentsDiag;
     }
 }

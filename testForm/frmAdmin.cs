@@ -376,5 +376,23 @@ namespace testForm
                 UpdateGroupsList(); //maybe
             }
         }
+
+        private void btnUploadStudents_Click(object sender, EventArgs e)
+        {
+            uploadStudentsDiag.ShowDialog();
+            
+            string studentsFile = uploadSchDiag.FileName;
+            StreamReader reader = new StreamReader(studentsFile);
+           
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                var values = line.Split(',');
+                for (int j = 0; j < 5; j++)
+                {
+                    //schedule[i, j] = int.Parse(values[j]);
+                }
+            }
+        }
     }
 }
