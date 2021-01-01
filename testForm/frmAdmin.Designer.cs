@@ -255,6 +255,8 @@
             this.columnHeader9,
             this.columnHeader10,
             this.columnHeader11});
+            this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(3, 49);
             this.listView1.Name = "listView1";
@@ -342,6 +344,7 @@
             this.btnShowAllStudents.TabIndex = 9;
             this.btnShowAllStudents.Text = "Display All Students";
             this.btnShowAllStudents.UseVisualStyleBackColor = true;
+            this.btnShowAllStudents.Click += new System.EventHandler(this.btnShowAllStudents_Click);
             // 
             // btnRemove
             // 
@@ -361,6 +364,7 @@
             this.btnStudentManualAdd.TabIndex = 7;
             this.btnStudentManualAdd.Text = "Add Student Manually";
             this.btnStudentManualAdd.UseVisualStyleBackColor = true;
+            this.btnStudentManualAdd.Click += new System.EventHandler(this.btnStudentManualAdd_Click);
             // 
             // btnUploadStudents
             // 
@@ -380,6 +384,7 @@
             this.btnDisGroup.TabIndex = 3;
             this.btnDisGroup.Text = "Display All from Group";
             this.btnDisGroup.UseVisualStyleBackColor = true;
+            this.btnDisGroup.Click += new System.EventHandler(this.btnDisGroup_Click);
             // 
             // label1
             // 
@@ -412,6 +417,8 @@
             this.BackupName,
             this.BackupRole,
             this.BackupNumber});
+            this.lstStudents.FullRowSelect = true;
+            this.lstStudents.GridLines = true;
             this.lstStudents.HideSelection = false;
             this.lstStudents.Location = new System.Drawing.Point(3, 53);
             this.lstStudents.Name = "lstStudents";

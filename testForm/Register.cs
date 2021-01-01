@@ -23,7 +23,7 @@ namespace testForm
         {
             this.Visible = false;
             frmAdmin admin = new frmAdmin();
-            
+
             admin.ShowDialog();
         }
         private void btnAddUser_Click(object sender, EventArgs e)
@@ -47,11 +47,15 @@ namespace testForm
             {
                 rights = "t";
             }
-
+            string cmd;
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
-                String sql = "Insert into Users (UserName, UserPassword, UserRole, FirstName, LastName, IsLoggedIn) Values('" + txtNewUsername.Text + "', '" + txtNewPassword.Text + "', '" + rights + "', '" + txtFirstName.Text + "', '" + txtLastName.Text + "', '0');";
 
+                if (txtLastName.Text != null)
+                    cmd = "Insert into Users (UserName, UserPassword, UserRole, FirstName, LastName, IsLoggedIn) Values('" + txtNewUsername.Text + "', '" + txtNewPassword.Text + "', '" + rights + "', '" + txtFirstName.Text + "', '" + txtLastName.Text + "', '0');";
+                else
+                    cmd = "Insert into Users (UserName, UserPassword, UserRole, FirstName, IsLoggedIn) Values('" + txtNewUsername.Text + "', '" + txtNewPassword.Text + "', '" + rights + "', '" + txtFirstName.Text + "', '0');";
+                String sql = cmd;
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();

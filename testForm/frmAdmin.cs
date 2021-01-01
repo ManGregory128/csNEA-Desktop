@@ -116,7 +116,7 @@ namespace testForm
             }
 
         }
-        private void UpdateUsersList()
+        public void UpdateUsersList()
         {
             lstUsers.Items.Clear();
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
@@ -380,17 +380,116 @@ namespace testForm
         private void btnUploadStudents_Click(object sender, EventArgs e)
         {
             uploadStudentsDiag.ShowDialog();
-            
-            string studentsFile = uploadSchDiag.FileName;
-            StreamReader reader = new StreamReader(studentsFile);
-           
-            while (!reader.EndOfStream)
+            try
             {
-                var line = reader.ReadLine();
-                var values = line.Split(',');
-                for (int j = 0; j < 5; j++)
+                string studentsFile = uploadSchDiag.FileName;
+                StreamReader reader = new StreamReader(studentsFile);
+
+                while (!reader.EndOfStream)
                 {
-                    //schedule[i, j] = int.Parse(values[j]);
+                    var line = reader.ReadLine();
+                    var values = line.Split(',');
+                    for (int j = 0; j < 5; j++)
+                    {
+                        //schedule[i, j] = int.Parse(values[j]);
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("You have not selected an appropriate file.");
+            }
+        }
+
+        private void btnStudentManualAdd_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
+            RegisterStudent registerStudent = new RegisterStudent();
+            registerStudent.ShowDialog();
+        }
+
+        private void btnDisGroup_Click(object sender, EventArgs e)
+        {
+            lstStudents.Items.Clear();
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.DataSource = "192.168.0.30";
+            builder.UserID = "SA";
+            builder.Password = "CYrulis2002";
+            builder.InitialCatalog = "attendanceDB";
+
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                String sql = "SELECT StudentID, FirstName, LastName, StudentGroup, MotherName, MotherPhone, FatherName, FatherPhone, ThirdName, ThirdRole, ThirdPhone FROM dbo.Students WHERE StudentGroup='" + cmbGroups.Text + "';";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ListViewItem student = new ListViewItem(reader.GetInt32(0).ToString()); //ID
+                            student.SubItems.Add(reader.GetString(1)); //FirstName
+                            student.SubItems.Add(reader.GetString(2)); //LastName
+                            student.SubItems.Add(reader.GetString(3)); //Group
+                            student.SubItems.Add(reader.GetString(4)); //Mother's Name
+                            student.SubItems.Add(reader.GetInt32(5).ToString()); //Mother's Phone Number
+                            if (!reader.IsDBNull(6))
+                                student.SubItems.Add(reader.GetString(6)); //Father's Name
+                            student.SubItems.Add(reader.GetInt32(7).ToString()); //Father's Phone Number
+                            student.SubItems.Add(reader.GetString(8)); //Backup Contact's Name
+                            student.SubItems.Add(reader.GetString(9)); //Backup Contact's Role
+                            student.SubItems.Add(reader.GetInt32(10).ToString()); //Backup Contact's Phone Number
+                            //if (!reader.IsDBNull(1))
+
+                            lstStudents.Items.Add(student);
+                        }
+                        reader.Close();
+                    }
+                    connection.Close();
+                }
+            }
+        }
+
+        private void btnShowAllStudents_Click(object sender, EventArgs e)
+        {
+            lstStudents.Items.Clear();
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.DataSource = "192.168.0.30";
+            builder.UserID = "SA";
+            builder.Password = "CYrulis2002";
+            builder.InitialCatalog = "attendanceDB";
+
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                String sql = "SELECT StudentID, FirstName, LastName, StudentGroup, MotherName, MotherPhone, FatherName, FatherPhone, ThirdName, ThirdRole, ThirdPhone FROM dbo.Students;";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ListViewItem student = new ListViewItem(reader.GetInt32(0).ToString()); //ID
+                            student.SubItems.Add(reader.GetString(1)); //FirstName
+                            student.SubItems.Add(reader.GetString(2)); //LastName
+                            student.SubItems.Add(reader.GetString(3)); //Group
+                            student.SubItems.Add(reader.GetString(4)); //Mother's Name
+                            student.SubItems.Add(reader.GetInt32(5).ToString()); //Mother's Phone Number
+                            if (!reader.IsDBNull(6))
+                                student.SubItems.Add(reader.GetString(6)); //Father's Name
+                            student.SubItems.Add(reader.GetInt32(7).ToString()); //Father's Phone Number
+                            student.SubItems.Add(reader.GetString(8)); //Backup Contact's Name
+                            student.SubItems.Add(reader.GetString(9)); //Backup Contact's Role
+                            student.SubItems.Add(reader.GetInt32(10).ToString()); //Backup Contact's Phone Number
+                            //if (!reader.IsDBNull(1))
+
+                            lstStudents.Items.Add(student);
+                        }
+                        reader.Close();
+                    }
+                    connection.Close();
                 }
             }
         }
