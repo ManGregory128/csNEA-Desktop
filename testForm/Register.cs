@@ -23,7 +23,7 @@ namespace testForm
         {
             this.Visible = false;
             frmAdmin admin = new frmAdmin();
-
+            admin.UpdateUsersList();
             admin.ShowDialog();
         }
         private void btnAddUser_Click(object sender, EventArgs e)

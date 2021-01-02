@@ -37,7 +37,7 @@ namespace testForm
             builder.UserID = "SA";
             builder.Password = "CYrulis2002";
             builder.InitialCatalog = "attendanceDB";
-
+            
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
                 
@@ -73,11 +73,11 @@ namespace testForm
                     }
                     else if (listOfUsers[i].accessRights == "a")
                     {
-                        listOfUsers.Clear();
-                        //MessageBox.Show("Hi Admin ;)");
+                        listOfUsers.Clear();                      
                         this.Visible = false;
-                        frmAdmin frmAdmin = new frmAdmin();
-                        frmAdmin.ShowDialog();
+                        frmAdmin admin = new frmAdmin();
+                        frmAdmin.SetDBinfo(txtDatabase.Text);
+                        admin.ShowDialog();
                     }
                     else
                     {

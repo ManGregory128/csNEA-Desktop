@@ -112,6 +112,7 @@
     <Compile Include="RegisterStudent.Designer.cs">
       <DependentUpon>RegisterStudent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Student.cs" />
     <EmbeddedResource Include="details.resx">
       <DependentUpon>details.cs</DependentUpon>
     </EmbeddedResource>
@@ -152,9 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="users.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.2.1.1\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.2.1.1\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />

@@ -29,6 +29,7 @@ namespace testForm
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegisterStudent));
             this.btnAddStudent = new System.Windows.Forms.Button();
             this.txtFirstName = new System.Windows.Forms.TextBox();
             this.txtLastName = new System.Windows.Forms.TextBox();
@@ -312,6 +313,7 @@ namespace testForm
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnAddStudent);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RegisterStudent";
             this.Text = "RegisterStudent";
             this.Load += new System.EventHandler(this.RegisterStudent_Load);

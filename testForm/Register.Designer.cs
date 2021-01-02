@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Register));
             this.btnBack = new System.Windows.Forms.Button();
             this.txtNewUsername = new System.Windows.Forms.TextBox();
             this.txtNewPassword = new System.Windows.Forms.TextBox();
@@ -165,6 +166,7 @@
             this.Controls.Add(this.txtNewPassword);
             this.Controls.Add(this.txtNewUsername);
             this.Controls.Add(this.btnBack);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Register";
             this.Text = "Add new user";
             this.ResumeLayout(false);

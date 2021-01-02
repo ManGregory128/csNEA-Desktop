@@ -103,6 +103,7 @@ namespace testForm
         {
             this.Visible = false;
             frmAdmin admin = new frmAdmin();
+            //update students list not necessary
             admin.Show();
         }
     }
