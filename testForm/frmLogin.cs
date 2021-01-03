@@ -35,7 +35,7 @@ namespace testForm
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.DataSource = txtDatabase.Text;
             builder.UserID = "SA";
-            builder.Password = "CYrulis2002";
+            builder.Password = "]JKfpLZSp=8Qd*NM";
             builder.InitialCatalog = "attendanceDB";
             
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))

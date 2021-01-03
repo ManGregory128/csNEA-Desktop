@@ -14,6 +14,7 @@ namespace testForm
 {
     public partial class Register : Form
     {
+        public static SqlConnectionStringBuilder builder { get; set; }
         public Register()
         {
             InitializeComponent();
@@ -26,15 +27,14 @@ namespace testForm
             admin.UpdateUsersList();
             admin.ShowDialog();
         }
+        public static void SetDBinfo(SqlConnectionStringBuilder input)
+        {
+            builder = input;
+        }
         private void btnAddUser_Click(object sender, EventArgs e)
         {
             string rights;
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "192.168.0.30";
-            builder.UserID = "SA";
-            builder.Password = "CYrulis2002";
-            builder.InitialCatalog = "attendanceDB";
-
+            
             if (cmbRights.Text == "Administrator")
             {
                 rights = "a";

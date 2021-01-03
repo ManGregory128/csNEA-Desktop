@@ -13,11 +13,15 @@ namespace testForm
 {
     public partial class RegisterStudent : Form
     {
+        public static SqlConnectionStringBuilder builder { get; set; }
         public RegisterStudent()
         {
             InitializeComponent();
         }
-
+        public static void SetDBinfo(SqlConnectionStringBuilder input)
+        {
+            builder = input;
+        }
         private void btnAddStudent_Click(object sender, EventArgs e)
         {
             int dump;
@@ -26,12 +30,7 @@ namespace testForm
                 MessageBox.Show("Make sure all fields are filled in, and that valid phone numbers are provided without spaces and try again.");
             }
             else
-            {
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "192.168.0.30";
-                builder.UserID = "SA";
-                builder.Password = "CYrulis2002";
-                builder.InitialCatalog = "attendanceDB";
+            {                
                 try
                 {
                     using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
@@ -57,12 +56,7 @@ namespace testForm
 
         private void RegisterStudent_Load(object sender, EventArgs e)
         {
-            cmbGroups.Items.Clear();
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "192.168.0.30";
-            builder.UserID = "SA";
-            builder.Password = "CYrulis2002";
-            builder.InitialCatalog = "attendanceDB";
+            cmbGroups.Items.Clear();            
 
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {

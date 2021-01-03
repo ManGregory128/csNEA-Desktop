@@ -14,19 +14,19 @@ using System.Data.SqlClient;
 namespace testForm
 {
     public partial class frmAdmin : Form
-    {        
+    {
         public static SqlConnectionStringBuilder builder { get; set; }
         public frmAdmin()
         {
-            InitializeComponent();
+            InitializeComponent();                       
         }
         public static void SetDBinfo(string input)
-        {           
+        {
             builder = new SqlConnectionStringBuilder
             {
                 DataSource = input,
                 UserID = "SA",
-                Password = "CYrulis2002",
+                Password = "]JKfpLZSp=8Qd*NM",
                 InitialCatalog = "attendanceDB"
             };
         }
@@ -34,6 +34,7 @@ namespace testForm
         {
             this.Visible = false;
             Register register = new Register();
+            Register.SetDBinfo(builder);
             register.ShowDialog();
         }
 
@@ -99,37 +100,81 @@ namespace testForm
             uploadSchDiag.ShowDialog();
             int[,] schedule = new int[7, 5];
             string scheduleFile = uploadSchDiag.FileName;
-            StreamReader reader = new StreamReader(scheduleFile);
-
-            int i = 0;
-            while (!reader.EndOfStream && i < 7)
-            {
-                var line = reader.ReadLine();
-                var values = line.Split(',');
-                for (int j = 0; j < 5; j++)
-                {
-                    schedule[i, j] = int.Parse(values[j]);
-                }
-                i++;
-            }
-            UploadSchedule(schedule);
-        }
-        private void UploadSchedule(int[,] sc)
-        {
             try
             {
-                string selectedUser = lstUsers.SelectedItems[0].Text;
-                //create teachings
+                StreamReader reader = new StreamReader(scheduleFile);
+
+                int i = 0;
+                while (!reader.EndOfStream && i < 7)
+                {
+                    var line = reader.ReadLine();
+                    var values = line.Split(',');
+                    for (int j = 0; j < 5; j++)
+                    {
+                        schedule[i, j] = int.Parse(values[j]);
+                    }
+                    i++;
+                }
+                UploadSchedule(schedule);
             }
             catch
             {
-                MessageBox.Show("You have not selected a user from the list!");
+                MessageBox.Show("You have not selected an appropriate file.");
             }
+        }
+        private void UploadSchedule(int[,] sc)
+        {
+            int rowsAffected = 0;
+            try
+            {
+                string selectedUser = lstUsers.SelectedItems[0].Text;
+                ClearSchedule(selectedUser);
+                int m, k; //increments day and period values to match database
+                for (int i = 0; i < 5; i++)
+                {
+                    k = i + 1;
+                    for (int j = 0; j < 7; j++)
+                    {
+                        m = j + 1;
+                        using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                        {
+                            String sql = "Insert into Teachings (PeriodID, LessonID, TeacherUsername, Day) Values(" + m + ", " + sc[j, i] + ", '" + selectedUser + "', " + k + ");";
 
+                            using (SqlCommand command = new SqlCommand(sql, connection))
+                            {
+                                connection.Open();
+                                rowsAffected = command.ExecuteNonQuery();
+                                connection.Close();
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                if (rowsAffected == 0)
+                    MessageBox.Show("You have not selected a user from the list!");
+                else
+                    MessageBox.Show("The information provided in the file does not match the registered Lessons. Teachings created for user = " + rowsAffected + ".");
+            }
+        }
+        private void ClearSchedule(string user)
+        {
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                String sql = "Delete from Teachings WHERE TeacherUsername='" + user + "';";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
         }
         public void UpdateUsersList()
         {
-            lstUsers.Items.Clear();           
+            lstUsers.Items.Clear();
 
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
@@ -159,15 +204,10 @@ namespace testForm
                     connection.Close();
                 }
             }
-        }       
+        }
         private void UpdateLessonsList()
         {
-            lstLessons.Items.Clear();
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "192.168.0.30";
-            builder.UserID = "SA";
-            builder.Password = "CYrulis2002";
-            builder.InitialCatalog = "attendanceDB";
+            lstLessons.Items.Clear();         
 
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
@@ -201,7 +241,7 @@ namespace testForm
                 MessageBox.Show("The Lesson ID must be an Integer and the Name must not be Null.");
             }
             else
-            {              
+            {
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                 {
                     String sql = "Insert into Lessons (LessonID, LessonName) Values(" + txtLessonID.Text + ", '" + txtLesson.Text + "');";
@@ -227,7 +267,7 @@ namespace testForm
         {
             if (lstLessons.Items.Count > 0)
             {
-                string lessonToDelete = lstLessons.SelectedItems[0].Text;              
+                string lessonToDelete = lstLessons.SelectedItems[0].Text;
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                 {
                     String sql = "DELETE FROM Lessons WHERE LessonID=" + lessonToDelete + ";";
@@ -250,7 +290,7 @@ namespace testForm
             string input = Interaction.InputBox("Type the new password below:", "Changing Password for " + username, "", 0, 0);
             string confirm = Interaction.InputBox("Repeat the new password below:", "Changing Password for " + username, "", 0, 0);
             if (input == confirm)
-            {               
+            {
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                 {
                     String sql = "UPDATE Users SET UserPassword='" + input + "' WHERE UserName='" + username + "';";
@@ -275,7 +315,7 @@ namespace testForm
                 MessageBox.Show("The Group ID must not be Null.");
             }
             else
-            {             
+            {
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                 {
                     String sql = "Insert into Groups (GroupID) Values('" + txtGroup.Text + "');";
@@ -298,7 +338,7 @@ namespace testForm
             cmbFinalGroup.Items.Clear();
             cmbGroups.Items.Clear();
             cmbAbsentGroups.Items.Clear();
-            cmbMentors.Items.Clear();           
+            cmbMentors.Items.Clear();
 
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
@@ -338,8 +378,15 @@ namespace testForm
             {
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                 {
-                    String sql = "UPDATE Groups SET TeacherRep = '" + userSelected + "' WHERE GroupID='" + group + "';";
+                    String sql = "UPDATE Groups SET TeacherRep = null WHERE TeacherRep = '" + userSelected + "';";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
 
+                    sql = "UPDATE Groups SET TeacherRep = '" + userSelected + "' WHERE GroupID='" + group + "';";                   
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         connection.Open();
@@ -348,6 +395,7 @@ namespace testForm
                     }
                 }
                 MessageBox.Show("Group properties saved successfuly.");
+                cmbMentors.Text = "";
                 UpdateGroupsList(); //maybe
             }
         }
@@ -399,6 +447,7 @@ namespace testForm
         {
             this.Visible = false;
             RegisterStudent registerStudent = new RegisterStudent();
+            RegisterStudent.SetDBinfo(builder);
             registerStudent.ShowDialog();
         }
 
@@ -474,6 +523,41 @@ namespace testForm
                     }
                     connection.Close();
                 }
+            }
+        }
+
+        private void btnTransferStudents_Click(object sender, EventArgs e)
+        {
+            if (cmbFinalGroup.Text == null || cmbInitialGroup.Text == null)
+                MessageBox.Show("You must select both groups!");
+            else
+            {
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
+                    String sql = "UPDATE Students SET StudentGroup = '" + cmbFinalGroup.Text + "' WHERE StudentGroup='" + cmbInitialGroup.Text + "';";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                }
+                lstStudents.Items.Clear();
+                MessageBox.Show("Done!");
+                cmbInitialGroup.Text = "";
+                cmbFinalGroup.Text = "";
+            }
+        }
+
+        private void btnAddSemester_Click(object sender, EventArgs e)
+        {
+            var dates = new List<DateTime>();
+            DateTime start = dtInitial.Value.Date;
+            DateTime end = dtFinal.Value.Date;
+            for (var dt = start; dt <= end; dt = dt.AddDays(1))
+            {
+                dates.Add(dt);
             }
         }
     }

@@ -117,9 +117,13 @@
             this.btnFeedPost = new System.Windows.Forms.Button();
             this.uploadSchDiag = new System.Windows.Forms.OpenFileDialog();
             this.uploadStudentsDiag = new System.Windows.Forms.OpenFileDialog();
+            this.dtInitial = new System.Windows.Forms.DateTimePicker();
+            this.dtFinal = new System.Windows.Forms.DateTimePicker();
+            this.btnAddSemester = new System.Windows.Forms.Button();
             this.adminTabs.SuspendLayout();
             this.tabAbsences.SuspendLayout();
             this.tabStudents.SuspendLayout();
+            this.datesPage.SuspendLayout();
             this.tabGroups.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -482,6 +486,9 @@
             // 
             // datesPage
             // 
+            this.datesPage.Controls.Add(this.btnAddSemester);
+            this.datesPage.Controls.Add(this.dtFinal);
+            this.datesPage.Controls.Add(this.dtInitial);
             this.datesPage.Location = new System.Drawing.Point(4, 22);
             this.datesPage.Name = "datesPage";
             this.datesPage.Padding = new System.Windows.Forms.Padding(3);
@@ -528,6 +535,7 @@
             this.btnTransferStudents.TabIndex = 5;
             this.btnTransferStudents.Text = "Transfer";
             this.btnTransferStudents.UseVisualStyleBackColor = true;
+            this.btnTransferStudents.Click += new System.EventHandler(this.btnTransferStudents_Click);
             // 
             // label8
             // 
@@ -898,6 +906,30 @@
             this.uploadStudentsDiag.DefaultExt = "csv";
             this.uploadStudentsDiag.InitialDirectory = "C:\\Users\\";
             // 
+            // dtInitial
+            // 
+            this.dtInitial.Location = new System.Drawing.Point(74, 80);
+            this.dtInitial.Name = "dtInitial";
+            this.dtInitial.Size = new System.Drawing.Size(200, 20);
+            this.dtInitial.TabIndex = 0;
+            // 
+            // dtFinal
+            // 
+            this.dtFinal.Location = new System.Drawing.Point(74, 106);
+            this.dtFinal.Name = "dtFinal";
+            this.dtFinal.Size = new System.Drawing.Size(200, 20);
+            this.dtFinal.TabIndex = 1;
+            // 
+            // btnAddSemester
+            // 
+            this.btnAddSemester.Location = new System.Drawing.Point(122, 132);
+            this.btnAddSemester.Name = "btnAddSemester";
+            this.btnAddSemester.Size = new System.Drawing.Size(101, 23);
+            this.btnAddSemester.TabIndex = 2;
+            this.btnAddSemester.Text = "Add Semester";
+            this.btnAddSemester.UseVisualStyleBackColor = true;
+            this.btnAddSemester.Click += new System.EventHandler(this.btnAddSemester_Click);
+            // 
             // frmAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -915,6 +947,7 @@
             this.tabAbsences.PerformLayout();
             this.tabStudents.ResumeLayout(false);
             this.tabStudents.PerformLayout();
+            this.datesPage.ResumeLayout(false);
             this.tabGroups.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -1018,5 +1051,8 @@
         private System.Windows.Forms.TextBox txtLessonID;
         private System.Windows.Forms.ComboBox cmbMentors;
         private System.Windows.Forms.OpenFileDialog uploadStudentsDiag;
+        private System.Windows.Forms.Button btnAddSemester;
+        private System.Windows.Forms.DateTimePicker dtFinal;
+        private System.Windows.Forms.DateTimePicker dtInitial;
     }
 }
