@@ -18,7 +18,7 @@ namespace testForm
         public static SqlConnectionStringBuilder builder { get; set; }
         public frmAdmin()
         {
-            InitializeComponent();                       
+            InitializeComponent();
         }
         public static void SetDBinfo(string input)
         {
@@ -57,6 +57,7 @@ namespace testForm
             UpdateUsersList();
             UpdateLessonsList();
             UpdateGroupsList();
+            UpdateSemList();
         }
 
         private void lstStudents_SelectedIndexChanged(object sender, EventArgs e)
@@ -207,7 +208,7 @@ namespace testForm
         }
         private void UpdateLessonsList()
         {
-            lstLessons.Items.Clear();         
+            lstLessons.Items.Clear();
 
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
@@ -386,7 +387,7 @@ namespace testForm
                         connection.Close();
                     }
 
-                    sql = "UPDATE Groups SET TeacherRep = '" + userSelected + "' WHERE GroupID='" + group + "';";                   
+                    sql = "UPDATE Groups SET TeacherRep = '" + userSelected + "' WHERE GroupID='" + group + "';";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         connection.Open();
@@ -552,13 +553,128 @@ namespace testForm
 
         private void btnAddSemester_Click(object sender, EventArgs e)
         {
-            var dates = new List<DateTime>();
+            int semNo = int.Parse(txtSemNo.Text);
             DateTime start = dtInitial.Value.Date;
             DateTime end = dtFinal.Value.Date;
+            SetSemester(start.ToString("yyyy-MM-dd"), end.ToString("yyyy-MM-dd"), semNo);
             for (var dt = start; dt <= end; dt = dt.AddDays(1))
             {
-                dates.Add(dt);
+                UploadDate(dt, semNo);
             }
+            MessageBox.Show("Semester Created Successfully and Dates were created.");
+            UpdateSemList();
+        }
+        private void SetSemester(string start, string end, int semester)
+        {
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                String sql = "Insert into Semesters (SemesterNumber, StartDate, EndDate) Values(" + semester + ", '" + start + "', '" + end + "');";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+        private void UploadDate(DateTime date, int semester)
+        {
+            string dateString = date.ToString("yyyy-MM-dd");
+            string day = date.DayOfWeek.ToString();
+            int dayToInt;
+            switch (day)
+            {
+                case "Monday":
+                    dayToInt = 1;
+                    break;
+                case "Tuesday":
+                    dayToInt = 2;
+                    break;
+                case "Wednesday":
+                    dayToInt = 3;
+                    break;
+                case "Thursday":
+                    dayToInt = 4;
+                    break;
+                case "Friday":
+                    dayToInt = 5;
+                    break;
+                case "Saturday":
+                    dayToInt = 6;
+                    break;
+                default:
+                    dayToInt = 7;
+                    break;
+            }
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                String sql = "Insert into Dates (Date, SemesterNumber, DayNumber, IsHoliday) Values('" + dateString + "', " + semester + ", " + dayToInt + ", 0);";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+        private void UpdateSemList()
+        {
+            lstSemesters.Items.Clear();
+
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                String sql = "SELECT SemesterNumber, StartDate, EndDate FROM dbo.Semesters";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            //Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
+                            int x = (byte)reader[0];
+                            ListViewItem semester = new ListViewItem(x.ToString());
+                            semester.SubItems.Add(reader.GetDateTime(1).ToString("yyyy-MMM-dd"));
+                            semester.SubItems.Add(reader.GetDateTime(2).ToString("yyyy-MMM-dd"));
+                            lstSemesters.Items.Add(semester);
+                        }
+                        reader.Close();
+                    }
+                    connection.Close();
+                }
+            }
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDeleteSem_Click(object sender, EventArgs e)
+        {
+            int semToDelete = int.Parse(lstSemesters.SelectedItems[0].Text);
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                String sql = "DELETE FROM Dates WHERE SemesterNumber=" + semToDelete + ";";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+
+                String sql2 = "DELETE FROM Semesters WHERE SemesterNumber=" + semToDelete + ";";
+                using (SqlCommand command = new SqlCommand(sql2, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+            UpdateSemList();
         }
     }
 }

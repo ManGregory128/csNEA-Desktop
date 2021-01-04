@@ -40,6 +40,7 @@
             // 
             // btnConnect
             // 
+            this.btnConnect.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnConnect.Location = new System.Drawing.Point(94, 134);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 23);
@@ -50,6 +51,7 @@
             // 
             // txtUser
             // 
+            this.txtUser.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtUser.Location = new System.Drawing.Point(132, 39);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(100, 20);
@@ -57,6 +59,7 @@
             // 
             // lblUser
             // 
+            this.lblUser.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblUser.AutoSize = true;
             this.lblUser.Location = new System.Drawing.Point(68, 42);
             this.lblUser.Name = "lblUser";
@@ -66,6 +69,7 @@
             // 
             // txtPassword
             // 
+            this.txtPassword.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtPassword.Location = new System.Drawing.Point(132, 65);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
@@ -74,6 +78,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(68, 68);
             this.label1.Name = "label1";
@@ -83,6 +88,7 @@
             // 
             // txtDatabase
             // 
+            this.txtDatabase.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtDatabase.Location = new System.Drawing.Point(132, 92);
             this.txtDatabase.Name = "txtDatabase";
             this.txtDatabase.Size = new System.Drawing.Size(100, 20);
@@ -90,6 +96,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(29, 95);
             this.label2.Name = "label2";
@@ -109,7 +116,9 @@
             this.Controls.Add(this.lblUser);
             this.Controls.Add(this.txtUser);
             this.Controls.Add(this.btnConnect);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "frmLogin";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.frmLogin_Load);

@@ -313,7 +313,9 @@ namespace testForm
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnAddStudent);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "RegisterStudent";
             this.Text = "RegisterStudent";
             this.Load += new System.EventHandler(this.RegisterStudent_Load);

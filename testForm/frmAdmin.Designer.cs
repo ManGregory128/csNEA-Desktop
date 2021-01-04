@@ -73,6 +73,9 @@
             this.BackupRole = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BackupNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.datesPage = new System.Windows.Forms.TabPage();
+            this.btnAddSemester = new System.Windows.Forms.Button();
+            this.dtFinal = new System.Windows.Forms.DateTimePicker();
+            this.dtInitial = new System.Windows.Forms.DateTimePicker();
             this.tabGroups = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnTransferStudents = new System.Windows.Forms.Button();
@@ -117,9 +120,17 @@
             this.btnFeedPost = new System.Windows.Forms.Button();
             this.uploadSchDiag = new System.Windows.Forms.OpenFileDialog();
             this.uploadStudentsDiag = new System.Windows.Forms.OpenFileDialog();
-            this.dtInitial = new System.Windows.Forms.DateTimePicker();
-            this.dtFinal = new System.Windows.Forms.DateTimePicker();
-            this.btnAddSemester = new System.Windows.Forms.Button();
+            this.lstSemesters = new System.Windows.Forms.ListView();
+            this.columnSemNo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnSemStart = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnSemEnd = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.txtSemNo = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.btnDeleteSem = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
             this.adminTabs.SuspendLayout();
             this.tabAbsences.SuspendLayout();
             this.tabStudents.SuspendLayout();
@@ -130,11 +141,12 @@
             this.usersPage.SuspendLayout();
             this.tabLessons.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnRegister
             // 
-            this.btnRegister.Location = new System.Drawing.Point(605, 371);
+            this.btnRegister.Location = new System.Drawing.Point(659, 371);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(131, 23);
             this.btnRegister.TabIndex = 0;
@@ -144,7 +156,8 @@
             // 
             // btnLogOut
             // 
-            this.btnLogOut.Location = new System.Drawing.Point(12, 452);
+            this.btnLogOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnLogOut.Location = new System.Drawing.Point(12, 479);
             this.btnLogOut.Name = "btnLogOut";
             this.btnLogOut.Size = new System.Drawing.Size(75, 23);
             this.btnLogOut.TabIndex = 1;
@@ -163,7 +176,7 @@
             this.adminTabs.Location = new System.Drawing.Point(12, 12);
             this.adminTabs.Name = "adminTabs";
             this.adminTabs.SelectedIndex = 0;
-            this.adminTabs.Size = new System.Drawing.Size(750, 426);
+            this.adminTabs.Size = new System.Drawing.Size(814, 453);
             this.adminTabs.TabIndex = 2;
             // 
             // tabAbsences
@@ -179,14 +192,14 @@
             this.tabAbsences.Location = new System.Drawing.Point(4, 22);
             this.tabAbsences.Name = "tabAbsences";
             this.tabAbsences.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAbsences.Size = new System.Drawing.Size(742, 400);
+            this.tabAbsences.Size = new System.Drawing.Size(806, 427);
             this.tabAbsences.TabIndex = 4;
             this.tabAbsences.Text = "Absences";
             this.tabAbsences.UseVisualStyleBackColor = true;
             // 
             // btnFlatGen
             // 
-            this.btnFlatGen.Location = new System.Drawing.Point(661, 6);
+            this.btnFlatGen.Location = new System.Drawing.Point(725, 6);
             this.btnFlatGen.Name = "btnFlatGen";
             this.btnFlatGen.Size = new System.Drawing.Size(75, 37);
             this.btnFlatGen.TabIndex = 14;
@@ -264,7 +277,7 @@
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(3, 49);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(736, 345);
+            this.listView1.Size = new System.Drawing.Size(797, 372);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -334,7 +347,7 @@
             this.tabStudents.Location = new System.Drawing.Point(4, 22);
             this.tabStudents.Name = "tabStudents";
             this.tabStudents.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStudents.Size = new System.Drawing.Size(742, 400);
+            this.tabStudents.Size = new System.Drawing.Size(806, 427);
             this.tabStudents.TabIndex = 2;
             this.tabStudents.Text = "Students Management";
             this.tabStudents.UseVisualStyleBackColor = true;
@@ -342,7 +355,7 @@
             // 
             // btnShowAllStudents
             // 
-            this.btnShowAllStudents.Location = new System.Drawing.Point(616, 10);
+            this.btnShowAllStudents.Location = new System.Drawing.Point(680, 10);
             this.btnShowAllStudents.Name = "btnShowAllStudents";
             this.btnShowAllStudents.Size = new System.Drawing.Size(120, 37);
             this.btnShowAllStudents.TabIndex = 9;
@@ -352,8 +365,9 @@
             // 
             // btnRemove
             // 
+            this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRemove.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnRemove.Location = new System.Drawing.Point(606, 356);
+            this.btnRemove.Location = new System.Drawing.Point(670, 383);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(130, 38);
             this.btnRemove.TabIndex = 8;
@@ -362,7 +376,7 @@
             // 
             // btnStudentManualAdd
             // 
-            this.btnStudentManualAdd.Location = new System.Drawing.Point(144, 356);
+            this.btnStudentManualAdd.Location = new System.Drawing.Point(154, 383);
             this.btnStudentManualAdd.Name = "btnStudentManualAdd";
             this.btnStudentManualAdd.Size = new System.Drawing.Size(130, 38);
             this.btnStudentManualAdd.TabIndex = 7;
@@ -372,7 +386,7 @@
             // 
             // btnUploadStudents
             // 
-            this.btnUploadStudents.Location = new System.Drawing.Point(6, 356);
+            this.btnUploadStudents.Location = new System.Drawing.Point(8, 383);
             this.btnUploadStudents.Name = "btnUploadStudents";
             this.btnUploadStudents.Size = new System.Drawing.Size(130, 38);
             this.btnUploadStudents.TabIndex = 6;
@@ -426,7 +440,7 @@
             this.lstStudents.HideSelection = false;
             this.lstStudents.Location = new System.Drawing.Point(3, 53);
             this.lstStudents.Name = "lstStudents";
-            this.lstStudents.Size = new System.Drawing.Size(736, 297);
+            this.lstStudents.Size = new System.Drawing.Size(800, 324);
             this.lstStudents.TabIndex = 0;
             this.lstStudents.UseCompatibleStateImageBehavior = false;
             this.lstStudents.View = System.Windows.Forms.View.Details;
@@ -486,16 +500,43 @@
             // 
             // datesPage
             // 
-            this.datesPage.Controls.Add(this.btnAddSemester);
-            this.datesPage.Controls.Add(this.dtFinal);
-            this.datesPage.Controls.Add(this.dtInitial);
+            this.datesPage.Controls.Add(this.label14);
+            this.datesPage.Controls.Add(this.btnDeleteSem);
+            this.datesPage.Controls.Add(this.groupBox4);
+            this.datesPage.Controls.Add(this.lstSemesters);
             this.datesPage.Location = new System.Drawing.Point(4, 22);
             this.datesPage.Name = "datesPage";
             this.datesPage.Padding = new System.Windows.Forms.Padding(3);
-            this.datesPage.Size = new System.Drawing.Size(742, 400);
+            this.datesPage.Size = new System.Drawing.Size(806, 427);
             this.datesPage.TabIndex = 1;
             this.datesPage.Text = "Calendar Management";
             this.datesPage.UseVisualStyleBackColor = true;
+            // 
+            // btnAddSemester
+            // 
+            this.btnAddSemester.Location = new System.Drawing.Point(94, 115);
+            this.btnAddSemester.Name = "btnAddSemester";
+            this.btnAddSemester.Size = new System.Drawing.Size(101, 23);
+            this.btnAddSemester.TabIndex = 2;
+            this.btnAddSemester.Text = "Add Semester";
+            this.btnAddSemester.UseVisualStyleBackColor = true;
+            this.btnAddSemester.Click += new System.EventHandler(this.btnAddSemester_Click);
+            // 
+            // dtFinal
+            // 
+            this.dtFinal.CustomFormat = "yyyy-mm-dd";
+            this.dtFinal.Location = new System.Drawing.Point(81, 57);
+            this.dtFinal.Name = "dtFinal";
+            this.dtFinal.Size = new System.Drawing.Size(200, 20);
+            this.dtFinal.TabIndex = 1;
+            // 
+            // dtInitial
+            // 
+            this.dtInitial.CustomFormat = "yyyy-mm-dd";
+            this.dtInitial.Location = new System.Drawing.Point(81, 31);
+            this.dtInitial.Name = "dtInitial";
+            this.dtInitial.Size = new System.Drawing.Size(200, 20);
+            this.dtInitial.TabIndex = 0;
             // 
             // tabGroups
             // 
@@ -506,7 +547,7 @@
             this.tabGroups.Location = new System.Drawing.Point(4, 22);
             this.tabGroups.Name = "tabGroups";
             this.tabGroups.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGroups.Size = new System.Drawing.Size(742, 400);
+            this.tabGroups.Size = new System.Drawing.Size(806, 427);
             this.tabGroups.TabIndex = 3;
             this.tabGroups.Text = "Groups Management";
             this.tabGroups.UseVisualStyleBackColor = true;
@@ -520,7 +561,7 @@
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.cmbFinalGroup);
             this.groupBox2.Controls.Add(this.cmbInitialGroup);
-            this.groupBox2.Location = new System.Drawing.Point(442, 156);
+            this.groupBox2.Location = new System.Drawing.Point(517, 156);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(274, 163);
             this.groupBox2.TabIndex = 8;
@@ -585,7 +626,7 @@
             // btnRemoveGrpAndStudents
             // 
             this.btnRemoveGrpAndStudents.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnRemoveGrpAndStudents.Location = new System.Drawing.Point(517, 345);
+            this.btnRemoveGrpAndStudents.Location = new System.Drawing.Point(593, 350);
             this.btnRemoveGrpAndStudents.Name = "btnRemoveGrpAndStudents";
             this.btnRemoveGrpAndStudents.Size = new System.Drawing.Size(133, 39);
             this.btnRemoveGrpAndStudents.TabIndex = 7;
@@ -597,7 +638,7 @@
             this.groupBox1.Controls.Add(this.btnAddGroup);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtGroup);
-            this.groupBox1.Location = new System.Drawing.Point(442, 17);
+            this.groupBox1.Location = new System.Drawing.Point(517, 17);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(274, 123);
             this.groupBox1.TabIndex = 6;
@@ -641,7 +682,7 @@
             this.lstGroups.HideSelection = false;
             this.lstGroups.Location = new System.Drawing.Point(7, 7);
             this.lstGroups.Name = "lstGroups";
-            this.lstGroups.Size = new System.Drawing.Size(419, 387);
+            this.lstGroups.Size = new System.Drawing.Size(486, 414);
             this.lstGroups.TabIndex = 0;
             this.lstGroups.UseCompatibleStateImageBehavior = false;
             this.lstGroups.View = System.Windows.Forms.View.Details;
@@ -673,7 +714,7 @@
             this.usersPage.Location = new System.Drawing.Point(4, 22);
             this.usersPage.Name = "usersPage";
             this.usersPage.Padding = new System.Windows.Forms.Padding(3);
-            this.usersPage.Size = new System.Drawing.Size(742, 400);
+            this.usersPage.Size = new System.Drawing.Size(806, 427);
             this.usersPage.TabIndex = 0;
             this.usersPage.Text = "Users Management";
             this.usersPage.UseVisualStyleBackColor = true;
@@ -682,14 +723,14 @@
             // cmbMentors
             // 
             this.cmbMentors.FormattingEnabled = true;
-            this.cmbMentors.Location = new System.Drawing.Point(606, 105);
+            this.cmbMentors.Location = new System.Drawing.Point(660, 105);
             this.cmbMentors.Name = "cmbMentors";
             this.cmbMentors.Size = new System.Drawing.Size(129, 21);
             this.cmbMentors.TabIndex = 6;
             // 
             // btnMentorSet
             // 
-            this.btnMentorSet.Location = new System.Drawing.Point(605, 132);
+            this.btnMentorSet.Location = new System.Drawing.Point(659, 132);
             this.btnMentorSet.Name = "btnMentorSet";
             this.btnMentorSet.Size = new System.Drawing.Size(130, 23);
             this.btnMentorSet.TabIndex = 5;
@@ -699,7 +740,7 @@
             // 
             // btnChangePassword
             // 
-            this.btnChangePassword.Location = new System.Drawing.Point(606, 58);
+            this.btnChangePassword.Location = new System.Drawing.Point(660, 58);
             this.btnChangePassword.Name = "btnChangePassword";
             this.btnChangePassword.Size = new System.Drawing.Size(130, 23);
             this.btnChangePassword.TabIndex = 4;
@@ -709,7 +750,7 @@
             // 
             // btnSchedule
             // 
-            this.btnSchedule.Location = new System.Drawing.Point(606, 28);
+            this.btnSchedule.Location = new System.Drawing.Point(660, 28);
             this.btnSchedule.Name = "btnSchedule";
             this.btnSchedule.Size = new System.Drawing.Size(130, 23);
             this.btnSchedule.TabIndex = 3;
@@ -720,7 +761,7 @@
             // btnRemoveUser
             // 
             this.btnRemoveUser.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnRemoveUser.Location = new System.Drawing.Point(605, 309);
+            this.btnRemoveUser.Location = new System.Drawing.Point(659, 309);
             this.btnRemoveUser.Name = "btnRemoveUser";
             this.btnRemoveUser.Size = new System.Drawing.Size(130, 23);
             this.btnRemoveUser.TabIndex = 2;
@@ -740,7 +781,7 @@
             this.lstUsers.HideSelection = false;
             this.lstUsers.Location = new System.Drawing.Point(7, 7);
             this.lstUsers.Name = "lstUsers";
-            this.lstUsers.Size = new System.Drawing.Size(592, 387);
+            this.lstUsers.Size = new System.Drawing.Size(646, 414);
             this.lstUsers.TabIndex = 1;
             this.lstUsers.UseCompatibleStateImageBehavior = false;
             this.lstUsers.View = System.Windows.Forms.View.Details;
@@ -779,7 +820,7 @@
             this.tabLessons.Location = new System.Drawing.Point(4, 22);
             this.tabLessons.Name = "tabLessons";
             this.tabLessons.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLessons.Size = new System.Drawing.Size(742, 400);
+            this.tabLessons.Size = new System.Drawing.Size(806, 427);
             this.tabLessons.TabIndex = 5;
             this.tabLessons.Text = "Lessons Management";
             this.tabLessons.UseVisualStyleBackColor = true;
@@ -787,7 +828,7 @@
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(482, 169);
+            this.label10.Location = new System.Drawing.Point(541, 172);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(218, 35);
             this.label10.TabIndex = 9;
@@ -797,7 +838,7 @@
             // btnDelLesson
             // 
             this.btnDelLesson.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnDelLesson.Location = new System.Drawing.Point(539, 207);
+            this.btnDelLesson.Location = new System.Drawing.Point(598, 210);
             this.btnDelLesson.Name = "btnDelLesson";
             this.btnDelLesson.Size = new System.Drawing.Size(106, 23);
             this.btnDelLesson.TabIndex = 8;
@@ -812,7 +853,7 @@
             this.groupBox3.Controls.Add(this.btnAddLesson);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.txtLesson);
-            this.groupBox3.Location = new System.Drawing.Point(464, 17);
+            this.groupBox3.Location = new System.Drawing.Point(523, 20);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(259, 123);
             this.groupBox3.TabIndex = 7;
@@ -871,7 +912,7 @@
             this.lstLessons.HideSelection = false;
             this.lstLessons.Location = new System.Drawing.Point(3, 3);
             this.lstLessons.Name = "lstLessons";
-            this.lstLessons.Size = new System.Drawing.Size(443, 394);
+            this.lstLessons.Size = new System.Drawing.Size(514, 418);
             this.lstLessons.TabIndex = 1;
             this.lstLessons.UseCompatibleStateImageBehavior = false;
             this.lstLessons.View = System.Windows.Forms.View.Details;
@@ -888,7 +929,8 @@
             // 
             // btnFeedPost
             // 
-            this.btnFeedPost.Location = new System.Drawing.Point(353, 444);
+            this.btnFeedPost.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnFeedPost.Location = new System.Drawing.Point(385, 471);
             this.btnFeedPost.Name = "btnFeedPost";
             this.btnFeedPost.Size = new System.Drawing.Size(80, 31);
             this.btnFeedPost.TabIndex = 3;
@@ -906,35 +948,116 @@
             this.uploadStudentsDiag.DefaultExt = "csv";
             this.uploadStudentsDiag.InitialDirectory = "C:\\Users\\";
             // 
-            // dtInitial
+            // lstSemesters
             // 
-            this.dtInitial.Location = new System.Drawing.Point(74, 80);
-            this.dtInitial.Name = "dtInitial";
-            this.dtInitial.Size = new System.Drawing.Size(200, 20);
-            this.dtInitial.TabIndex = 0;
+            this.lstSemesters.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lstSemesters.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnSemNo,
+            this.columnSemStart,
+            this.columnSemEnd});
+            this.lstSemesters.FullRowSelect = true;
+            this.lstSemesters.GridLines = true;
+            this.lstSemesters.HideSelection = false;
+            this.lstSemesters.Location = new System.Drawing.Point(382, 6);
+            this.lstSemesters.Name = "lstSemesters";
+            this.lstSemesters.Size = new System.Drawing.Size(418, 415);
+            this.lstSemesters.TabIndex = 3;
+            this.lstSemesters.UseCompatibleStateImageBehavior = false;
+            this.lstSemesters.View = System.Windows.Forms.View.Details;
             // 
-            // dtFinal
+            // columnSemNo
             // 
-            this.dtFinal.Location = new System.Drawing.Point(74, 106);
-            this.dtFinal.Name = "dtFinal";
-            this.dtFinal.Size = new System.Drawing.Size(200, 20);
-            this.dtFinal.TabIndex = 1;
+            this.columnSemNo.Text = "Semester Number";
+            this.columnSemNo.Width = 105;
             // 
-            // btnAddSemester
+            // columnSemStart
             // 
-            this.btnAddSemester.Location = new System.Drawing.Point(122, 132);
-            this.btnAddSemester.Name = "btnAddSemester";
-            this.btnAddSemester.Size = new System.Drawing.Size(101, 23);
-            this.btnAddSemester.TabIndex = 2;
-            this.btnAddSemester.Text = "Add Semester";
-            this.btnAddSemester.UseVisualStyleBackColor = true;
-            this.btnAddSemester.Click += new System.EventHandler(this.btnAddSemester_Click);
+            this.columnSemStart.Text = "Initial Date";
+            this.columnSemStart.Width = 86;
+            // 
+            // columnSemEnd
+            // 
+            this.columnSemEnd.Text = "Final Date";
+            this.columnSemEnd.Width = 97;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Controls.Add(this.label12);
+            this.groupBox4.Controls.Add(this.label4);
+            this.groupBox4.Controls.Add(this.txtSemNo);
+            this.groupBox4.Controls.Add(this.btnAddSemester);
+            this.groupBox4.Controls.Add(this.dtInitial);
+            this.groupBox4.Controls.Add(this.dtFinal);
+            this.groupBox4.Location = new System.Drawing.Point(44, 18);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(296, 152);
+            this.groupBox4.TabIndex = 4;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Add Semester";
+            // 
+            // txtSemNo
+            // 
+            this.txtSemNo.Location = new System.Drawing.Point(81, 83);
+            this.txtSemNo.Name = "txtSemNo";
+            this.txtSemNo.Size = new System.Drawing.Size(200, 20);
+            this.txtSemNo.TabIndex = 3;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(17, 37);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(58, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Start Date:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(20, 63);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(55, 13);
+            this.label12.TabIndex = 5;
+            this.label12.Text = "End Date:";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(7, 86);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(68, 13);
+            this.label13.TabIndex = 6;
+            this.label13.Text = "Semester ID:";
+            // 
+            // btnDeleteSem
+            // 
+            this.btnDeleteSem.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnDeleteSem.Location = new System.Drawing.Point(125, 337);
+            this.btnDeleteSem.Name = "btnDeleteSem";
+            this.btnDeleteSem.Size = new System.Drawing.Size(130, 46);
+            this.btnDeleteSem.TabIndex = 5;
+            this.btnDeleteSem.Text = "Remove Semester and Assosiated Dates";
+            this.btnDeleteSem.UseVisualStyleBackColor = true;
+            this.btnDeleteSem.Click += new System.EventHandler(this.btnDeleteSem_Click);
+            // 
+            // label14
+            // 
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.label14.Location = new System.Drawing.Point(32, 287);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(321, 38);
+            this.label14.TabIndex = 6;
+            this.label14.Text = "NOTE: By deleting a Semester, all Absence Data collected that matches the semeste" +
+    "r will also be deleted.";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label14.Click += new System.EventHandler(this.label14_Click);
             // 
             // frmAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(774, 487);
+            this.ClientSize = new System.Drawing.Size(838, 514);
             this.Controls.Add(this.btnFeedPost);
             this.Controls.Add(this.adminTabs);
             this.Controls.Add(this.btnLogOut);
@@ -957,6 +1080,8 @@
             this.tabLessons.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1054,5 +1179,16 @@
         private System.Windows.Forms.Button btnAddSemester;
         private System.Windows.Forms.DateTimePicker dtFinal;
         private System.Windows.Forms.DateTimePicker dtInitial;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.ListView lstSemesters;
+        private System.Windows.Forms.ColumnHeader columnSemNo;
+        private System.Windows.Forms.ColumnHeader columnSemStart;
+        private System.Windows.Forms.ColumnHeader columnSemEnd;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtSemNo;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button btnDeleteSem;
     }
 }
