@@ -16,6 +16,7 @@ namespace testForm
     public partial class frmAdmin : Form
     {
         public static SqlConnectionStringBuilder builder { get; set; }
+        public static string currentUser { get; set; }
         public frmAdmin()
         {
             InitializeComponent();
@@ -77,7 +78,21 @@ namespace testForm
 
         private void btnFeedPost_Click(object sender, EventArgs e)
         {
+            DateTime rightNow = DateTime.Now;
             string input = Interaction.InputBox("Type your feed post below:", "Posting to the Feed", "", 0, 0);
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                String sql = "Insert into Feed (Author, DateTimePosted, Post) " +
+                    "Values('" + currentUser + "', '" + rightNow.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + input + "');";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+            MessageBox.Show("Post Uploaded Successfully.");
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -100,6 +115,7 @@ namespace testForm
             MessageBox.Show("WARNING: This will override the current schedule of the user (if any exists).");
             uploadSchDiag.ShowDialog();
             int[,] schedule = new int[7, 5];
+            string[,] schGroups = new string[7, 5];
             string scheduleFile = uploadSchDiag.FileName;
             try
             {
@@ -116,14 +132,31 @@ namespace testForm
                     }
                     i++;
                 }
-                UploadSchedule(schedule);
+                reader.Close();
+                MessageBox.Show("Now select the corresponding Groups file.");
+                uploadSchDiag.ShowDialog();
+                string groupsFile = uploadSchDiag.FileName;
+                reader = new StreamReader(groupsFile);
+                i = 0;
+                while (!reader.EndOfStream && i < 7)
+                {
+                    var line = reader.ReadLine();
+                    var values = line.Split(',');
+                    for (int j = 0; j < 5; j++)
+                    {
+                        schGroups[i, j] = values[j];
+                    }
+                    i++;
+                }
+                reader.Close();
+                UploadSchedule(schedule, schGroups);
             }
             catch
             {
                 MessageBox.Show("You have not selected an appropriate file.");
-            }
+            }            
         }
-        private void UploadSchedule(int[,] sc)
+        private void UploadSchedule(int[,] sc, string[,] scGrp)
         {
             int rowsAffected = 0;
             try
@@ -139,17 +172,26 @@ namespace testForm
                         m = j + 1;
                         using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                         {
-                            String sql = "Insert into Teachings (PeriodID, LessonID, TeacherUsername, Day) Values(" + m + ", " + sc[j, i] + ", '" + selectedUser + "', " + k + ");";
+                            String sql;
+                            if (scGrp[j, i] == "NULL")
+                            {
+                                sql = "Insert into Teachings (PeriodID, LessonID, TeacherUsername, Day, [Group]) Values(" + m + ", " + sc[j, i] + ", '" + selectedUser + "', " + k + ", NULL);";
+                            }
+                            else
+                            {
+                                sql = "Insert into Teachings (PeriodID, LessonID, TeacherUsername, Day, [Group]) Values(" + m + ", " + sc[j, i] + ", '" + selectedUser + "', " + k + ", '" + scGrp[j, i] + "');";
+                            }
 
                             using (SqlCommand command = new SqlCommand(sql, connection))
                             {
                                 connection.Open();
-                                rowsAffected = command.ExecuteNonQuery();
+                                rowsAffected = rowsAffected + command.ExecuteNonQuery();
                                 connection.Close();
                             }
                         }
                     }
                 }
+                MessageBox.Show(rowsAffected + " teachings were uploaded successfully.");
             }
             catch
             {
@@ -245,7 +287,8 @@ namespace testForm
             {
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                 {
-                    String sql = "Insert into Lessons (LessonID, LessonName) Values(" + txtLessonID.Text + ", '" + txtLesson.Text + "');";
+                    String sql = "Insert into Lessons (LessonID, LessonName) " +
+                        "Values(" + txtLessonID.Text + ", '" + txtLesson.Text + "');";
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {

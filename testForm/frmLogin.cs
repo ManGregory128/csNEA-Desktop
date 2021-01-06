@@ -73,6 +73,7 @@ namespace testForm
                     }
                     else if (listOfUsers[i].accessRights == "a")
                     {
+                        frmAdmin.currentUser = listOfUsers[i].username;
                         listOfUsers.Clear();                      
                         this.Visible = false;
                         frmAdmin admin = new frmAdmin();
