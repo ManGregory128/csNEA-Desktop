@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using System.IO;
 using System.Data.SqlClient;
+using CsvHelper;
+using System.Globalization;
 
 namespace testForm
 {
@@ -21,6 +23,7 @@ namespace testForm
         {
             InitializeComponent();
         }
+        
         public static void SetDBinfo(string input)
         {
             builder = new SqlConnectionStringBuilder
@@ -718,6 +721,113 @@ namespace testForm
                 }
             }
             UpdateSemList();
+        }
+
+        private void btnGroupAbsent_Click(object sender, EventArgs e)
+        {
+            lstAbsences.Items.Clear();
+            string group;
+            DateTime selectedDT = dtRegistrar.Value;
+            int period = Convert.ToInt32(Math.Round(nmPeriod.Value, 0));
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                String sql;
+                if (cmbAbsentGroups.Text != null)
+                {
+                    sql = "SELECT Attendances.StudentID, Students.FirstName, Students.LastName, Students.StudentGroup, Students.MotherName, Students.MotherPhone, Students.FatherName, Students.FatherPhone, Students.ThirdName, Students.ThirdRole, Students.ThirdPhone FROM Attendances " +
+                    "INNER JOIN Students ON Attendances.StudentID = Students.StudentID WHERE Date = '" + selectedDT.ToString("yyyy-MM-dd") + "' AND Period = " + period + " AND IsPresent = 0;";
+                }
+                else
+                {
+                    group = cmbAbsentGroups.Text;
+                    sql = "SELECT Attendances.StudentID, Students.FirstName, Students.LastName, Students.StudentGroup, Students.MotherName, Students.MotherPhone, Students.FatherName, Students.FatherPhone, Students.ThirdName, Students.ThirdRole, Students.ThirdPhone FROM Attendances " +
+                    "INNER JOIN Students ON Attendances.StudentID = Students.StudentID WHERE StudentGroup='" + group + "' AND Date = '" + selectedDT.ToString("yyyy-MM-dd") + "' AND Period = " + period + " AND IsPresent = 0;";
+                }                
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ListViewItem student = new ListViewItem(reader.GetInt32(0).ToString());
+                            student.SubItems.Add(reader.GetString(1));
+                            student.SubItems.Add(reader.GetString(2));
+                            student.SubItems.Add(reader.GetString(3));
+                            student.SubItems.Add(reader.GetString(4)); //Mother's Name
+                            student.SubItems.Add(reader.GetInt32(5).ToString()); //Mother's Phone Number
+                            if (!reader.IsDBNull(6))
+                                student.SubItems.Add(reader.GetString(6)); //Father's Name
+                            student.SubItems.Add(reader.GetInt32(7).ToString()); //Father's Phone Number
+                            student.SubItems.Add(reader.GetString(8)); //Backup Contact's Name
+                            student.SubItems.Add(reader.GetString(9)); //Backup Contact's Role
+                            student.SubItems.Add(reader.GetInt32(10).ToString()); //Backup Contact's Phone Number
+                            lstAbsences.Items.Add(student);
+                        }
+                        reader.Close();
+                    }
+                    connection.Close();
+                }
+            }
+        }    
+
+        private void btnFlatGen_Click(object sender, EventArgs e)
+        {
+            string group;
+            DateTime selectedDT = dtRegistrar.Value;
+            int period = Convert.ToInt32(Math.Round(nmPeriod.Value, 0));
+            List<Student> studentsToCsv = new List<Student>();
+            Student tempStudent;
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                String sql;
+                if (cmbAbsentGroups.Text != null)
+                {
+                    sql = "SELECT Attendances.StudentID, Students.FirstName, Students.LastName, Students.StudentGroup, Students.MotherName, Students.MotherPhone, Students.FatherName, Students.FatherPhone, Students.ThirdName, Students.ThirdRole, Students.ThirdPhone FROM Attendances " +
+                    "INNER JOIN Students ON Attendances.StudentID = Students.StudentID WHERE Date = '" + selectedDT.ToString("yyyy-MM-dd") + "' AND Period = " + period + " AND IsPresent = 0;";
+                }
+                else
+                {
+                    group = cmbAbsentGroups.Text;
+                    sql = "SELECT Attendances.StudentID, Students.FirstName, Students.LastName, Students.StudentGroup, Students.MotherName, Students.MotherPhone, Students.FatherName, Students.FatherPhone, Students.ThirdName, Students.ThirdRole, Students.ThirdPhone FROM Attendances " +
+                    "INNER JOIN Students ON Attendances.StudentID = Students.StudentID WHERE StudentGroup='" + group + "' AND Date = '" + selectedDT.ToString("yyyy-MM-dd") + "' AND Period = " + period + " AND IsPresent = 0;";
+                }
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            tempStudent = new Student(reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(6), reader.GetString(8), reader.GetString(9), reader.GetInt32(5), reader.GetInt32(7), reader.GetInt32(10));
+                            studentsToCsv.Add(tempStudent);
+                        }
+                        reader.Close();
+                    }
+                    connection.Close();
+                }
+            }
+            using (var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    using (var writer = new StreamWriter(fbd.SelectedPath + "\\file.csv"))
+                    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                    {
+                        csv.WriteRecords(studentsToCsv);
+                    }
+                }
+            }
+            
+        }
+
+        private void btnRemoveUser_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

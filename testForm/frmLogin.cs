@@ -23,7 +23,10 @@ namespace testForm
         {                                  
             InitializeComponent();
         }
-
+        private void frmLogin_FormClosing(Object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
         private void frmLogin_Load(object sender, EventArgs e)
         {
 
