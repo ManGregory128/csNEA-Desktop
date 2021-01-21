@@ -52,9 +52,11 @@ namespace testForm
             {
 
                 if (txtLastName.Text != null)
-                    cmd = "Insert into Users (UserName, UserPassword, UserRole, FirstName, LastName, IsLoggedIn) Values('" + txtNewUsername.Text + "', '" + txtNewPassword.Text + "', '" + rights + "', '" + txtFirstName.Text + "', '" + txtLastName.Text + "', '0');";
+                    cmd = "Insert into Users (UserName, UserPassword, UserRole, FirstName, LastName, IsLoggedIn) " +
+                        "Values('" + txtNewUsername.Text + "', '" + txtNewPassword.Text + "', '" + rights + "', '" + txtFirstName.Text + "', '" + txtLastName.Text + "', '0');";
                 else
-                    cmd = "Insert into Users (UserName, UserPassword, UserRole, FirstName, IsLoggedIn) Values('" + txtNewUsername.Text + "', '" + txtNewPassword.Text + "', '" + rights + "', '" + txtFirstName.Text + "', '0');";
+                    cmd = "Insert into Users (UserName, UserPassword, UserRole, FirstName, IsLoggedIn) " +
+                        "Values('" + txtNewUsername.Text + "', '" + txtNewPassword.Text + "', '" + rights + "', '" + txtFirstName.Text + "', '0');";
                 String sql = cmd;
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {

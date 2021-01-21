@@ -23,15 +23,15 @@ namespace testForm
         {
             InitializeComponent();
         }
-        
-        public static void SetDBinfo(string input)
+
+        public static void SetDBinfo(string input, string password)
         {
             builder = new SqlConnectionStringBuilder
             {
                 DataSource = input,
-                UserID = "SA",
-                Password = "]JKfpLZSp=8Qd*NM",
-                InitialCatalog = "attendanceDB"
+                UserID = "adminDB",
+                Password = password,
+                InitialCatalog = "aradippou5"
             };
         }
         private void btnRegister_Click(object sender, EventArgs e)
@@ -83,18 +83,11 @@ namespace testForm
         {
             DateTime rightNow = DateTime.Now;
             string input = Interaction.InputBox("Type your feed post below:", "Posting to the Feed", "", 0, 0);
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-            {
-                String sql = "Insert into Feed (Author, DateTimePosted, Post) " +
-                    "Values('" + currentUser + "', '" + rightNow.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + input + "');";
 
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                }
-            }
+            String sql = "Insert into Feed (Author, DateTimePosted, Post) " +
+                "Values('" + currentUser + "', '" + rightNow.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + input + "');";
+            ExecuteSQLInsert(sql);
+
             MessageBox.Show("Post Uploaded Successfully.");
         }
 
@@ -157,7 +150,7 @@ namespace testForm
             catch
             {
                 MessageBox.Show("You have not selected an appropriate file.");
-            }            
+            }
         }
         private void UploadSchedule(int[,] sc, string[,] scGrp)
         {
@@ -206,17 +199,8 @@ namespace testForm
         }
         private void ClearSchedule(string user)
         {
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-            {
-                String sql = "Delete from Teachings WHERE TeacherUsername='" + user + "';";
-
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                }
-            }
+            String sql = "Delete from Teachings WHERE TeacherUsername='" + user + "';";
+            ExecuteSQLInsert(sql);
         }
         public void UpdateUsersList()
         {
@@ -288,18 +272,11 @@ namespace testForm
             }
             else
             {
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-                {
-                    String sql = "Insert into Lessons (LessonID, LessonName) " +
-                        "Values(" + txtLessonID.Text + ", '" + txtLesson.Text + "');";
+                String sql = "Insert into Lessons (LessonID, LessonName) " +
+                    "Values(" + txtLessonID.Text + ", '" + txtLesson.Text + "');";
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
+                ExecuteSQLInsert(sql);
+
                 MessageBox.Show("Lesson added successfuly.");
                 UpdateLessonsList();
             }
@@ -315,17 +292,10 @@ namespace testForm
             if (lstLessons.Items.Count > 0)
             {
                 string lessonToDelete = lstLessons.SelectedItems[0].Text;
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-                {
-                    String sql = "DELETE FROM Lessons WHERE LessonID=" + lessonToDelete + ";";
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
+                String sql = "DELETE FROM Lessons WHERE LessonID=" + lessonToDelete + ";";
+                ExecuteSQLInsert(sql);
+
                 MessageBox.Show("Lesson removed successfuly.");
                 UpdateLessonsList();
             }
@@ -338,17 +308,9 @@ namespace testForm
             string confirm = Interaction.InputBox("Repeat the new password below:", "Changing Password for " + username, "", 0, 0);
             if (input == confirm)
             {
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-                {
-                    String sql = "UPDATE Users SET UserPassword='" + input + "' WHERE UserName='" + username + "';";
+                String sql = "UPDATE Users SET UserPassword='" + input + "' WHERE UserName='" + username + "';";
+                ExecuteSQLInsert(sql);
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
                 MessageBox.Show("Password for " + username + " changed successfuly.");
             }
             else
@@ -363,17 +325,9 @@ namespace testForm
             }
             else
             {
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-                {
-                    String sql = "Insert into Groups (GroupID) Values('" + txtGroup.Text + "');";
+                String sql = "Insert into Groups (GroupID) Values('" + txtGroup.Text + "');";
+                ExecuteSQLInsert(sql);
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
                 MessageBox.Show("Group added successfuly.");
                 UpdateGroupsList();
             }
@@ -423,24 +377,12 @@ namespace testForm
             string userSelected = lstUsers.SelectedItems[0].Text;
             if (group != null)
             {
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-                {
-                    String sql = "UPDATE Groups SET TeacherRep = null WHERE TeacherRep = '" + userSelected + "';";
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        connection.Close();
-                    }
+                String sql = "UPDATE Groups SET TeacherRep = null WHERE TeacherRep = '" + userSelected + "';"; //Removes user as Representative of any other group.
+                ExecuteSQLInsert(sql);
 
-                    sql = "UPDATE Groups SET TeacherRep = '" + userSelected + "' WHERE GroupID='" + group + "';";
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
+                sql = "UPDATE Groups SET TeacherRep = '" + userSelected + "' WHERE GroupID='" + group + "';"; //Assigns user as Representative of a group.
+                ExecuteSQLInsert(sql);
+
                 MessageBox.Show("Group properties saved successfuly.");
                 cmbMentors.Text = "";
                 UpdateGroupsList(); //maybe
@@ -476,18 +418,10 @@ namespace testForm
         {
             for (int i = 0; i < students.Count; i++)
             {
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-                {
-                    String sql = "Insert into Students (FirstName, LastName, StudentGroup, MotherName, MotherPhone, FatherName, FatherPhone, ThirdName, ThirdRole, ThirdPhone) " +
-                        "Values('" + students[i].FirstName + "', '" + students[i].LastName + "', '" + students[i].Group + "', '" + students[i].MothersName + "', " + students[i].MotherPhone.ToString() + ", '" + students[i].FathersName + "', " + students[i].FatherPhone.ToString() + ", '" + students[i].ThirdName + "', '" + students[i].ThirdRole + "', " + students[i].ThirdPhone.ToString() + ");";
+                String sql = "Insert into Students (FirstName, LastName, StudentGroup, MotherName, MotherPhone, FatherName, FatherPhone, ThirdName, ThirdRole, ThirdPhone) " +
+                    "Values('" + students[i].FirstName + "', '" + students[i].LastName + "', '" + students[i].Group + "', '" + students[i].MothersName + "', " + students[i].MotherPhone.ToString() + ", '" + students[i].FathersName + "', " + students[i].FatherPhone.ToString() + ", '" + students[i].ThirdName + "', '" + students[i].ThirdRole + "', " + students[i].ThirdPhone.ToString() + ");";
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
+                ExecuteSQLInsert(sql);
             }
         }
         private void btnStudentManualAdd_Click(object sender, EventArgs e)
@@ -579,17 +513,9 @@ namespace testForm
                 MessageBox.Show("You must select both groups!");
             else
             {
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-                {
-                    String sql = "UPDATE Students SET StudentGroup = '" + cmbFinalGroup.Text + "' WHERE StudentGroup='" + cmbInitialGroup.Text + "';";
+                String sql = "UPDATE Students SET StudentGroup = '" + cmbFinalGroup.Text + "' WHERE StudentGroup='" + cmbInitialGroup.Text + "';";
+                ExecuteSQLInsert(sql);
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
                 lstStudents.Items.Clear();
                 MessageBox.Show("Done!");
                 cmbInitialGroup.Text = "";
@@ -612,17 +538,9 @@ namespace testForm
         }
         private void SetSemester(string start, string end, int semester)
         {
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-            {
-                String sql = "Insert into Semesters (SemesterNumber, StartDate, EndDate) Values(" + semester + ", '" + start + "', '" + end + "');";
+            String sql = "Insert into Semesters (SemesterNumber, StartDate, EndDate) Values(" + semester + ", '" + start + "', '" + end + "');";
 
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                }
-            }
+            ExecuteSQLInsert(sql);
         }
         private void UploadDate(DateTime date, int semester)
         {
@@ -653,17 +571,9 @@ namespace testForm
                     dayToInt = 7;
                     break;
             }
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-            {
-                String sql = "Insert into Dates (Date, SemesterNumber, DayNumber, IsHoliday) Values('" + dateString + "', " + semester + ", " + dayToInt + ", 0);";
+            String sql = "Insert into Dates (Date, SemesterNumber, DayNumber, IsHoliday) Values('" + dateString + "', " + semester + ", " + dayToInt + ", 0);";
 
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                }
-            }
+            ExecuteSQLInsert(sql);
         }
         private void UpdateSemList()
         {
@@ -702,24 +612,13 @@ namespace testForm
         private void btnDeleteSem_Click(object sender, EventArgs e)
         {
             int semToDelete = int.Parse(lstSemesters.SelectedItems[0].Text);
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-            {
-                String sql = "DELETE FROM Dates WHERE SemesterNumber=" + semToDelete + ";";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                }
 
-                String sql2 = "DELETE FROM Semesters WHERE SemesterNumber=" + semToDelete + ";";
-                using (SqlCommand command = new SqlCommand(sql2, connection))
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                }
-            }
+            String sql = "DELETE FROM Dates WHERE SemesterNumber=" + semToDelete + ";";
+            ExecuteSQLInsert(sql);
+
+            String sql2 = "DELETE FROM Semesters WHERE SemesterNumber=" + semToDelete + ";";
+            ExecuteSQLInsert(sql2);
+
             UpdateSemList();
         }
 
@@ -742,7 +641,7 @@ namespace testForm
                     group = cmbAbsentGroups.Text;
                     sql = "SELECT Attendances.StudentID, Students.FirstName, Students.LastName, Students.StudentGroup, Students.MotherName, Students.MotherPhone, Students.FatherName, Students.FatherPhone, Students.ThirdName, Students.ThirdRole, Students.ThirdPhone FROM Attendances " +
                     "INNER JOIN Students ON Attendances.StudentID = Students.StudentID WHERE StudentGroup='" + group + "' AND Date = '" + selectedDT.ToString("yyyy-MM-dd") + "' AND Period = " + period + " AND IsPresent = 0;";
-                }                
+                }
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -770,7 +669,7 @@ namespace testForm
                     connection.Close();
                 }
             }
-        }    
+        }
 
         private void btnFlatGen_Click(object sender, EventArgs e)
         {
@@ -815,19 +714,32 @@ namespace testForm
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    using (var writer = new StreamWriter(fbd.SelectedPath + "\\file.csv"))
+                    using (var writer = new StreamWriter(fbd.SelectedPath + "\\absences-on-" + selectedDT.ToString("yyyy-MM-dd") + ".csv"))
                     using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                     {
                         csv.WriteRecords(studentsToCsv);
                     }
                 }
             }
-            
+
         }
 
         private void btnRemoveUser_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void ExecuteSQLInsert(String sqlCommand)
+        {
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(sqlCommand, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
         }
     }
 }

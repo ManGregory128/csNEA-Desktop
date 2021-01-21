@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Data.SqlClient;
+using testForm.Properties;
 
 namespace testForm
 {
@@ -29,7 +30,11 @@ namespace testForm
         }
         private void frmLogin_Load(object sender, EventArgs e)
         {
-
+            if (Settings.Default.DBaddress != string.Empty)
+            {
+                txtDatabase.Text = Settings.Default.DBaddress;
+                txtDBPassword.Text = Settings.Default.DBpassword;
+            }
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -37,9 +42,9 @@ namespace testForm
             bool success = false;            
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.DataSource = txtDatabase.Text;
-            builder.UserID = "SA";
-            builder.Password = "]JKfpLZSp=8Qd*NM";
-            builder.InitialCatalog = "attendanceDB";
+            builder.UserID = "adminDB";
+            builder.Password = txtDBPassword.Text;
+            builder.InitialCatalog = "aradippou5";
             
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
@@ -53,7 +58,7 @@ namespace testForm
                     {
                         while (reader.Read())
                         {
-                            Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
+                            //Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
                             AddUser(reader.GetString(0), reader.GetString(1), reader.GetString(2));
                         }
                         reader.Close();
@@ -67,6 +72,18 @@ namespace testForm
                 {
                     success = true;
                     passUser = listOfUsers[i].username;
+                    if (chckRemember.Checked)
+                    {
+                        Settings.Default.DBaddress = txtDatabase.Text;
+                        Settings.Default.DBpassword = txtDBPassword.Text;
+                        Settings.Default.Save();
+                    }
+                    else
+                    {
+                        Settings.Default.DBaddress = "";
+                        Settings.Default.DBpassword = "";
+                        Settings.Default.Save();
+                    }
                     this.Visible = false;
                     if (listOfUsers[i].accessRights == "s")
                     {
@@ -80,7 +97,7 @@ namespace testForm
                         listOfUsers.Clear();                      
                         this.Visible = false;
                         frmAdmin admin = new frmAdmin();
-                        frmAdmin.SetDBinfo(txtDatabase.Text);
+                        frmAdmin.SetDBinfo(txtDatabase.Text, txtDBPassword.Text);
                         admin.ShowDialog();
                     }
                     else
