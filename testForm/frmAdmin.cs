@@ -63,6 +63,12 @@ namespace testForm
             UpdateGroupsList();
             UpdateSemList();
         }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            e.Cancel = false;
+            base.OnFormClosing(e);
+            Application.Exit();
+        }
 
         private void lstStudents_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -289,16 +295,21 @@ namespace testForm
 
         private void btnDelLesson_Click(object sender, EventArgs e)
         {
-            if (lstLessons.Items.Count > 0)
+            if (lstLessons.Items.Count > 0 && lstLessons.SelectedItems.Count == 1)
             {
                 string lessonToDelete = lstLessons.SelectedItems[0].Text;
 
                 String sql = "DELETE FROM Lessons WHERE LessonID=" + lessonToDelete + ";";
                 ExecuteSQLInsert(sql);
 
+                sql = "DELETE FROM Teachings WHERE LessonID =" + lessonToDelete + ";";
+                ExecuteSQLInsert(sql);
+
                 MessageBox.Show("Lesson removed successfuly.");
                 UpdateLessonsList();
             }
+            else
+                MessageBox.Show("You need to have a lesson from the list selected first.");
         }
 
         private void btnChangePassword_Click(object sender, EventArgs e)
@@ -451,14 +462,13 @@ namespace testForm
                             student.SubItems.Add(reader.GetString(2)); //LastName
                             student.SubItems.Add(reader.GetString(3)); //Group
                             student.SubItems.Add(reader.GetString(4)); //Mother's Name
-                            student.SubItems.Add(reader.GetInt32(5).ToString()); //Mother's Phone Number
-                            if (!reader.IsDBNull(6))
-                                student.SubItems.Add(reader.GetString(6)); //Father's Name
+                            student.SubItems.Add(reader.GetInt32(5).ToString()); //Mother's Phone Number                            
+                            student.SubItems.Add(reader.GetString(6)); //Father's Name
                             student.SubItems.Add(reader.GetInt32(7).ToString()); //Father's Phone Number
                             student.SubItems.Add(reader.GetString(8)); //Backup Contact's Name
-                            student.SubItems.Add(reader.GetString(9)); //Backup Contact's Role
-                            student.SubItems.Add(reader.GetInt32(10).ToString()); //Backup Contact's Phone Number
-                            //if (!reader.IsDBNull(1))
+                            if (!reader.IsDBNull(9))
+                                student.SubItems.Add(reader.GetString(9)); //Backup Contact's Role
+                            student.SubItems.Add(reader.GetInt32(10).ToString()); //Backup Contact's Phone Number                            
 
                             lstStudents.Items.Add(student);
                         }
@@ -490,11 +500,11 @@ namespace testForm
                             student.SubItems.Add(reader.GetString(3)); //Group
                             student.SubItems.Add(reader.GetString(4)); //Mother's Name
                             student.SubItems.Add(reader.GetInt32(5).ToString()); //Mother's Phone Number
-                            if (!reader.IsDBNull(6))
-                                student.SubItems.Add(reader.GetString(6)); //Father's Name
+                            student.SubItems.Add(reader.GetString(6)); //Father's Name
                             student.SubItems.Add(reader.GetInt32(7).ToString()); //Father's Phone Number
                             student.SubItems.Add(reader.GetString(8)); //Backup Contact's Name
-                            student.SubItems.Add(reader.GetString(9)); //Backup Contact's Role
+                            if (!reader.IsDBNull(9))
+                                student.SubItems.Add(reader.GetString(9)); //Backup Contact's Role
                             student.SubItems.Add(reader.GetInt32(10).ToString()); //Backup Contact's Phone Number
                             //if (!reader.IsDBNull(1))
 
@@ -655,12 +665,12 @@ namespace testForm
                             student.SubItems.Add(reader.GetString(2));
                             student.SubItems.Add(reader.GetString(3));
                             student.SubItems.Add(reader.GetString(4)); //Mother's Name
-                            student.SubItems.Add(reader.GetInt32(5).ToString()); //Mother's Phone Number
-                            if (!reader.IsDBNull(6))
-                                student.SubItems.Add(reader.GetString(6)); //Father's Name
+                            student.SubItems.Add(reader.GetInt32(5).ToString()); //Mother's Phone Number                            
+                            student.SubItems.Add(reader.GetString(6)); //Father's Name
                             student.SubItems.Add(reader.GetInt32(7).ToString()); //Father's Phone Number
                             student.SubItems.Add(reader.GetString(8)); //Backup Contact's Name
-                            student.SubItems.Add(reader.GetString(9)); //Backup Contact's Role
+                            if (!reader.IsDBNull(9))
+                                student.SubItems.Add(reader.GetString(9)); //Backup Contact's Role
                             student.SubItems.Add(reader.GetInt32(10).ToString()); //Backup Contact's Phone Number
                             lstAbsences.Items.Add(student);
                         }
@@ -740,6 +750,34 @@ namespace testForm
                     connection.Close();
                 }
             }
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e) //delete student from Students, Absences
+        {
+            if (lstStudents.SelectedItems.Count == 1)
+            {
+                string StudentID = lstStudents.SelectedItems[0].Text;
+                string message = "Are you sure you want to delete student with ID " + StudentID + "?";
+                string title = "Confirmation";
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result = MessageBox.Show(message, title, buttons);
+                if (result == DialogResult.Yes)
+                {
+                    String sql = "DELETE FROM dbo.Attendances WHERE StudentID = " + StudentID + ";";
+                    ExecuteSQLInsert(sql);
+
+                    sql = "DELETE FROM dbo.Students WHERE StudentID = " + StudentID + ";";
+                    ExecuteSQLInsert(sql);
+
+                    lstStudents.SelectedItems[0].Remove();
+                }
+                else
+                {
+                    MessageBox.Show("The student will not be deleted.");
+                }
+            }
+            else
+                MessageBox.Show("You need to select a student from the list first.");            
         }
     }
 }

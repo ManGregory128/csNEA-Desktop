@@ -400,6 +400,7 @@
             this.btnRemove.TabIndex = 8;
             this.btnRemove.Text = "Remove Student";
             this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // btnStudentManualAdd
             // 
@@ -466,6 +467,7 @@
             this.lstStudents.GridLines = true;
             this.lstStudents.HideSelection = false;
             this.lstStudents.Location = new System.Drawing.Point(3, 53);
+            this.lstStudents.MultiSelect = false;
             this.lstStudents.Name = "lstStudents";
             this.lstStudents.Size = new System.Drawing.Size(800, 324);
             this.lstStudents.TabIndex = 0;

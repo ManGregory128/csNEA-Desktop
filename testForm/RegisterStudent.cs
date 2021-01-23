@@ -35,8 +35,17 @@ namespace testForm
                 {
                     using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                     {
-                        String sql = "Insert into Students (FirstName, LastName, StudentGroup, MotherName, MotherPhone, FatherName, FatherPhone, ThirdName, ThirdRole, ThirdPhone) " +
+                        String sql;
+                        if (txtThirdRole.Text == null)
+                        {
+                            sql = "Insert into Students (FirstName, LastName, StudentGroup, MotherName, MotherPhone, FatherName, FatherPhone, ThirdName, ThirdRole, ThirdPhone) " +
                             "Values('" + txtFirstName.Text + "', '" + txtLastName.Text + "', '" + cmbGroups.Text + "', '" + txtMotherName.Text + "', " + txtMotherPhone.Text + ", '" + txtFatherName.Text + "', " + txtFatherPhone.Text + ", '" + txtThirdName.Text + "', '" + txtThirdRole.Text + "', " + txtThirdNo.Text + ");";
+                        }
+                        else
+                        {
+                            sql = "Insert into Students (FirstName, LastName, StudentGroup, MotherName, MotherPhone, FatherName, FatherPhone, ThirdName, ThirdPhone) " +
+                            "Values('" + txtFirstName.Text + "', '" + txtLastName.Text + "', '" + cmbGroups.Text + "', '" + txtMotherName.Text + "', " + txtMotherPhone.Text + ", '" + txtFatherName.Text + "', " + txtFatherPhone.Text + ", '" + txtThirdName.Text + "', " + txtThirdNo.Text + ");";
+                        }
 
                         using (SqlCommand command = new SqlCommand(sql, connection))
                         {

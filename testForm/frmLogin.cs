@@ -24,10 +24,7 @@ namespace testForm
         {                                  
             InitializeComponent();
         }
-        private void frmLogin_FormClosing(Object sender, FormClosingEventArgs e)
-        {
-            Application.Exit();
-        }
+        
         private void frmLogin_Load(object sender, EventArgs e)
         {
             if (Settings.Default.DBaddress != string.Empty)
@@ -122,6 +119,12 @@ namespace testForm
             tempUser.password = password;
             tempUser.accessRights = rights;
             listOfUsers.Add(tempUser);
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            e.Cancel = false;
+            base.OnFormClosing(e);
+            Application.Exit();
         }
     }
 
