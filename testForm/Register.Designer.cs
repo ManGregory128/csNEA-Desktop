@@ -1,4 +1,4 @@
-﻿namespace testForm
+﻿namespace csNEA
 {
     partial class Register
     {

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Data.SqlClient;
 
-namespace testForm
+namespace csNEA
 {
     public partial class Register : Form
     {

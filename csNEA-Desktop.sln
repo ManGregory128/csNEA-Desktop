@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testForm", "testForm\testForm.csproj", "{AD5C8D0D-6186-4494-9D3E-79E048D691C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csNEA", "testForm\csNEA.csproj", "{AD5C8D0D-6186-4494-9D3E-79E048D691C5}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DesktopSetup", "DesktopSetup\DesktopSetup.vdproj", "{A0029898-339F-46D5-8D42-5A1D2895E5D6}"
 EndProject

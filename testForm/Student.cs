@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace testForm
+namespace csNEA
 {
     public class Student
     {

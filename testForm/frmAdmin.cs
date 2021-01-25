@@ -13,7 +13,7 @@ using System.Data.SqlClient;
 using CsvHelper;
 using System.Globalization;
 
-namespace testForm
+namespace csNEA
 {
     public partial class frmAdmin : Form
     {
@@ -89,12 +89,18 @@ namespace testForm
         {
             DateTime rightNow = DateTime.Now;
             string input = Interaction.InputBox("Type your feed post below:", "Posting to the Feed", "", 0, 0);
-
-            String sql = "Insert into Feed (Author, DateTimePosted, Post) " +
+            if (input == "")
+            {
+                MessageBox.Show("The post will not be uploaded."); //include test in word document
+            }
+            else
+            {
+                String sql = "Insert into Feed (Author, DateTimePosted, Post) " +
                 "Values('" + currentUser + "', '" + rightNow.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + input + "');";
-            ExecuteSQLInsert(sql);
+                ExecuteSQLInsert(sql);
 
-            MessageBox.Show("Post Uploaded Successfully.");
+                MessageBox.Show("Post Uploaded Successfully.");
+            }
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -754,6 +760,7 @@ namespace testForm
 
         private void btnRemove_Click(object sender, EventArgs e) //delete student from Students, Absences
         {
+            //TODO - check if trying to delete own user
             if (lstStudents.SelectedItems.Count == 1)
             {
                 string StudentID = lstStudents.SelectedItems[0].Text;

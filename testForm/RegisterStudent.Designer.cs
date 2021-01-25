@@ -1,5 +1,5 @@
 ﻿
-namespace testForm
+namespace csNEA
 {
     partial class RegisterStudent
     {

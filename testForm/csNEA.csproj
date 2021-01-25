@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AD5C8D0D-6186-4494-9D3E-79E048D691C5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>testForm</RootNamespace>
-    <AssemblyName>testForm</AssemblyName>
+    <RootNamespace>csNEA</RootNamespace>
+    <AssemblyName>Attendance System</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -124,6 +124,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Register.resx">
       <DependentUpon>Register.cs</DependentUpon>

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace testForm
+namespace csNEA
 {
     public partial class details : Form
     {
