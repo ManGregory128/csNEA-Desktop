@@ -45,7 +45,7 @@ namespace csNEA
         private void btnLogOut_Click(object sender, EventArgs e)
         {
             this.Visible = false;
-            MessageBox.Show("Goodbye!");
+            //MessageBox.Show("Goodbye!");
             frmLogin logIn = new frmLogin();
             logIn.ShowDialog();
         }
@@ -58,32 +58,32 @@ namespace csNEA
         private void frmAdmin_Load(object sender, EventArgs e)
         {
             //reload all lists
-            UpdateUsersList();
-            UpdateLessonsList();
+            if (frmLogin.passRights == 'a')
+            {
+                UpdateUsersList();
+                UpdateLessonsList();
+                UpdateSemList();
+            }            
+            
             UpdateGroupsList();
-            UpdateSemList();
         }
+
+        private void adminTabs_SelectedIndexChanged(object sender, System.EventArgs e)
+        {            
+            if (frmLogin.passRights == 's' && (adminTabs.SelectedTab == usersPage || adminTabs.SelectedTab == tabLessons || adminTabs.SelectedTab == datesPage))
+            {
+                MessageBox.Show("Unable to load tab. You have insufficient access privileges.");
+                adminTabs.SelectedTab = tabAbsences;
+            }
+
+        }
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             e.Cancel = false;
             base.OnFormClosing(e);
             Application.Exit();
-        }
-
-        private void lstStudents_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabStudents_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lstUsers_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+        }                       
 
         private void btnFeedPost_Click(object sender, EventArgs e)
         {
@@ -742,7 +742,56 @@ namespace csNEA
 
         private void btnRemoveUser_Click(object sender, EventArgs e)
         {
+            //must check if something is selected, then if user is logged in, then if the user is trying to delete themselves
+            if (lstUsers.SelectedItems.Count == 1)
+            {
+                if (frmLogin.passUser == lstUsers.SelectedItems[0].Text)
+                {
+                    MessageBox.Show("You cannot remove yourself!");
+                }
+                else
+                {
+                    if (lstUsers.SelectedItems[0].SubItems[4].Text == "True")
+                    {
+                        MessageBox.Show("This user is currently logged in. Have them log out first.");
+                    }
+                    else
+                    {
+                        string userToDelete = lstUsers.SelectedItems[0].Text;
+                        string message = "Are you sure you want to delete student with Username " + userToDelete + "?";
+                        string title = "Confirmation";
+                        MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                        DialogResult result = MessageBox.Show(message, title, buttons);
+                        if (result == DialogResult.Yes)
+                        {
+                            String sql;
+                            if (lstUsers.SelectedItems[0].SubItems[3].Text == "t")
+                            {
+                                sql = "UPDATE Groups SET TeacherRep = null WHERE TeacherRep = '" + userToDelete + "';"; //Removes teacher as Representative of any other group.
+                                ExecuteSQLInsert(sql);
+                                sql = "DELETE FROM dbo.Teachings WHERE TeacherUsername = '" + userToDelete + "';";
+                                ExecuteSQLInsert(sql);
+                                //absences can remain unaffected.
+                            }
 
+                            if (frmLogin.passRights == 'a' || frmLogin.passRights == 's')
+                            {
+                                sql = "DELETE FROM dbo.Feed WHERE Author = '" + userToDelete + "';";
+                                ExecuteSQLInsert(sql);
+                            }
+
+                            sql = "DELETE FROM dbo.Users WHERE UserName = '" + userToDelete + "';";
+                            ExecuteSQLInsert(sql);
+
+                            UpdateUsersList();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("You have not selected a user.");
+            }            
         }
 
         private void ExecuteSQLInsert(String sqlCommand)

@@ -34,39 +34,42 @@ namespace csNEA
         private void btnAddUser_Click(object sender, EventArgs e)
         {
             string rights;
-            
-            if (cmbRights.Text == "Administrator")
-            {
-                rights = "a";
-            }
-            else if (cmbRights.Text == "Secretary")
-            {
-                rights = "s";
-            }
+            if (txtNewUsername == null || txtNewPassword.Text == null || txtFirstName == null)
+                MessageBox.Show("The first three fields must not be empty!");
             else
             {
-                rights = "t";
-            }
-            string cmd;
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-            {
-
-                if (txtLastName.Text != null)
-                    cmd = "Insert into Users (UserName, UserPassword, UserRole, FirstName, LastName, IsLoggedIn) " +
-                        "Values('" + txtNewUsername.Text + "', '" + txtNewPassword.Text + "', '" + rights + "', '" + txtFirstName.Text + "', '" + txtLastName.Text + "', '0');";
-                else
-                    cmd = "Insert into Users (UserName, UserPassword, UserRole, FirstName, IsLoggedIn) " +
-                        "Values('" + txtNewUsername.Text + "', '" + txtNewPassword.Text + "', '" + rights + "', '" + txtFirstName.Text + "', '0');";
-                String sql = cmd;
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                if (cmbRights.Text == "Administrator")
                 {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
+                    rights = "a";
                 }
-            }
-            MessageBox.Show("User added successfuly.");
+                else if (cmbRights.Text == "Secretary")
+                {
+                    rights = "s";
+                }
+                else
+                {
+                    rights = "t";
+                }
+                string cmd;
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
 
+                    if (txtLastName.Text != null)
+                        cmd = "Insert into Users (UserName, UserPassword, UserRole, FirstName, LastName, IsLoggedIn) " +
+                            "Values('" + txtNewUsername.Text + "', '" + txtNewPassword.Text + "', '" + rights + "', '" + txtFirstName.Text + "', '" + txtLastName.Text + "', '0');";
+                    else
+                        cmd = "Insert into Users (UserName, UserPassword, UserRole, FirstName, IsLoggedIn) " +
+                            "Values('" + txtNewUsername.Text + "', '" + txtNewPassword.Text + "', '" + rights + "', '" + txtFirstName.Text + "', '0');";
+                    String sql = cmd;
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                }
+                MessageBox.Show("User added successfuly.");
+            }
         }
 
         private void label4_Click(object sender, EventArgs e)

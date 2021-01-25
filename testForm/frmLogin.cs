@@ -19,6 +19,7 @@ namespace csNEA
         List<User> listOfUsers = new List<User>() { };       
         User tempUser = new User();
         public static string passUser;
+        public static char passRights;
         
         public frmLogin()
         {                                  
@@ -84,13 +85,17 @@ namespace csNEA
                     this.Visible = false;
                     if (listOfUsers[i].accessRights == "s")
                     {
+                        passRights = 's';
                         listOfUsers.Clear();
-                        FormSecretary sec = new FormSecretary();
-                        sec.ShowDialog();
+                        this.Visible = false;
+                        frmAdmin admin = new frmAdmin();
+                        frmAdmin.SetDBinfo(txtDatabase.Text, txtDBPassword.Text);
+                        admin.ShowDialog();
                     }
                     else if (listOfUsers[i].accessRights == "a")
                     {
                         frmAdmin.currentUser = listOfUsers[i].username;
+                        passRights = 'a';
                         listOfUsers.Clear();                      
                         this.Visible = false;
                         frmAdmin admin = new frmAdmin();

@@ -180,6 +180,7 @@
             this.adminTabs.SelectedIndex = 0;
             this.adminTabs.Size = new System.Drawing.Size(814, 453);
             this.adminTabs.TabIndex = 2;
+            this.adminTabs.SelectedIndexChanged += new System.EventHandler(this.adminTabs_SelectedIndexChanged);
             // 
             // tabAbsences
             // 
@@ -378,7 +379,6 @@
             this.tabStudents.TabIndex = 2;
             this.tabStudents.Text = "Students Management";
             this.tabStudents.UseVisualStyleBackColor = true;
-            this.tabStudents.Click += new System.EventHandler(this.tabStudents_Click);
             // 
             // btnShowAllStudents
             // 
@@ -473,7 +473,6 @@
             this.lstStudents.TabIndex = 0;
             this.lstStudents.UseCompatibleStateImageBehavior = false;
             this.lstStudents.View = System.Windows.Forms.View.Details;
-            this.lstStudents.SelectedIndexChanged += new System.EventHandler(this.lstStudents_SelectedIndexChanged);
             // 
             // IDColumn
             // 
@@ -920,7 +919,6 @@
             this.lstUsers.TabIndex = 1;
             this.lstUsers.UseCompatibleStateImageBehavior = false;
             this.lstUsers.View = System.Windows.Forms.View.Details;
-            this.lstUsers.SelectedIndexChanged += new System.EventHandler(this.lstUsers_SelectedIndexChanged);
             // 
             // usernameColumn
             // 
@@ -1065,7 +1063,7 @@
             // btnFeedPost
             // 
             this.btnFeedPost.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnFeedPost.Location = new System.Drawing.Point(385, 471);
+            this.btnFeedPost.Location = new System.Drawing.Point(380, 471);
             this.btnFeedPost.Name = "btnFeedPost";
             this.btnFeedPost.Size = new System.Drawing.Size(80, 31);
             this.btnFeedPost.TabIndex = 3;
@@ -1093,7 +1091,7 @@
             this.Controls.Add(this.btnLogOut);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmAdmin";
-            this.Text = "Administrator Control Panel";
+            this.Text = "Attendance Systen Control Panel";
             this.Load += new System.EventHandler(this.frmAdmin_Load);
             this.adminTabs.ResumeLayout(false);
             this.tabAbsences.ResumeLayout(false);
