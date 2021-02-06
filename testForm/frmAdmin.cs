@@ -63,13 +63,13 @@ namespace csNEA
                 UpdateUsersList();
                 UpdateLessonsList();
                 UpdateSemList();
-            }            
-            
+            }
+
             UpdateGroupsList();
         }
 
         private void adminTabs_SelectedIndexChanged(object sender, System.EventArgs e)
-        {            
+        {
             if (frmLogin.passRights == 's' && (adminTabs.SelectedTab == usersPage || adminTabs.SelectedTab == tabLessons || adminTabs.SelectedTab == datesPage))
             {
                 MessageBox.Show("Unable to load tab. You have insufficient access privileges.");
@@ -83,7 +83,7 @@ namespace csNEA
             e.Cancel = false;
             base.OnFormClosing(e);
             Application.Exit();
-        }                       
+        }
 
         private void btnFeedPost_Click(object sender, EventArgs e)
         {
@@ -288,8 +288,6 @@ namespace csNEA
                     "Values(" + txtLessonID.Text + ", '" + txtLesson.Text + "');";
 
                 ExecuteSQLInsert(sql);
-
-                MessageBox.Show("Lesson added successfuly.");
                 UpdateLessonsList();
             }
         }
@@ -345,7 +343,6 @@ namespace csNEA
                 String sql = "Insert into Groups (GroupID) Values('" + txtGroup.Text + "');";
                 ExecuteSQLInsert(sql);
 
-                MessageBox.Show("Group added successfuly.");
                 UpdateGroupsList();
             }
         }
@@ -541,16 +538,37 @@ namespace csNEA
 
         private void btnAddSemester_Click(object sender, EventArgs e)
         {
-            int semNo = int.Parse(txtSemNo.Text);
-            DateTime start = dtInitial.Value.Date;
-            DateTime end = dtFinal.Value.Date;
-            SetSemester(start.ToString("yyyy-MM-dd"), end.ToString("yyyy-MM-dd"), semNo);
-            for (var dt = start; dt <= end; dt = dt.AddDays(1))
+            bool semPresent = false;
+            int semNo;
+            if (!int.TryParse(txtSemNo.Text, out semNo))
             {
-                UploadDate(dt, semNo);
+                MessageBox.Show("The semester ID must be a number.");
             }
-            MessageBox.Show("Semester Created Successfully and Dates were created.");
-            UpdateSemList();
+            else
+            {
+                DateTime start = dtInitial.Value.Date;
+                DateTime end = dtFinal.Value.Date;
+                for (int i = 0; i < lstSemesters.Items.Count; i++) //validation for semester ID input
+                {
+                    if (lstSemesters.Items[i].Text == txtSemNo.Text)
+                    {
+                        semPresent = true;
+                        break;
+                    }
+                }
+                if (!semPresent)
+                {
+                    SetSemester(start.ToString("yyyy-MM-dd"), end.ToString("yyyy-MM-dd"), semNo);
+                    for (var dt = start; dt <= end; dt = dt.AddDays(1))
+                    {
+                        UploadDate(dt, semNo);
+                    }
+                    MessageBox.Show("Semester Created Successfully and Dates were created.");
+                    UpdateSemList();
+                }
+                else
+                    MessageBox.Show("This semester ID has already been used, enter a new semester ID.");
+            }
         }
         private void SetSemester(string start, string end, int semester)
         {
@@ -627,15 +645,52 @@ namespace csNEA
 
         private void btnDeleteSem_Click(object sender, EventArgs e)
         {
+            DateTime startDate = dtInitial.Value, endDate = dtFinal.Value;
             int semToDelete = int.Parse(lstSemesters.SelectedItems[0].Text);
+            String sql;
+            string message = "Are you sure you want to remove the semester and all associated data?";
+            string title = "Confirmation";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(message, title, buttons);
+            if (result == DialogResult.Yes)
+            {
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                {
+                    sql = "SELECT StartDate, EndDate FROM dbo.Semesters WHERE SemesterNumber = " + semToDelete + ";";
 
-            String sql = "DELETE FROM Dates WHERE SemesterNumber=" + semToDelete + ";";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                startDate = reader.GetDateTime(0);
+                                endDate = reader.GetDateTime(1);
+                            }
+                            reader.Close();
+                        }
+                        connection.Close();
+                    }
+                }
+                for (var dt = startDate; dt <= endDate; dt = dt.AddDays(1))
+                {
+                    DeleteAbsencesFromDate(dt);
+                }
+                //delete all Absences for these dates
+                sql = "DELETE FROM Dates WHERE SemesterNumber=" + semToDelete + ";";
+                ExecuteSQLInsert(sql);
+
+                sql = "DELETE FROM Semesters WHERE SemesterNumber=" + semToDelete + ";";
+                ExecuteSQLInsert(sql);
+
+                UpdateSemList();
+            }            
+        }
+        private void DeleteAbsencesFromDate(DateTime date)
+        {
+            String sql = "DELETE FROM Attendances WHERE Date='" + date.ToString("yyyy-MM-dd") + "';";
             ExecuteSQLInsert(sql);
-
-            String sql2 = "DELETE FROM Semesters WHERE SemesterNumber=" + semToDelete + ";";
-            ExecuteSQLInsert(sql2);
-
-            UpdateSemList();
         }
 
         private void btnGroupAbsent_Click(object sender, EventArgs e)
@@ -791,25 +846,48 @@ namespace csNEA
             else
             {
                 MessageBox.Show("You have not selected a user.");
-            }            
+            }
         }
 
         private void ExecuteSQLInsert(String sqlCommand)
         {
+            StringBuilder errorMessages = new StringBuilder();
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
                 using (SqlCommand command = new SqlCommand(sqlCommand, connection))
                 {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
+                    try
+                    {
+                        connection.Open();
+                        try
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        catch (SqlException ex)
+                        {
+                            for (int i = 0; i < ex.Errors.Count; i++)
+                            {
+                                errorMessages.Append("Message: " + ex.Errors[i].Message);
+                            }
+                            if (errorMessages.ToString().Contains("Violation of PRIMARY KEY") && errorMessages.ToString().Contains("dbo.Lessons"))
+                                MessageBox.Show("The database already contains a lesson with this ID. Try entering a new ID");
+                            else if (errorMessages.ToString().Contains("Violation of PRIMARY KEY") && errorMessages.ToString().Contains("dbo.Group"))
+                                MessageBox.Show("This group already exists.");
+                            else
+                                MessageBox.Show(errorMessages.ToString());
+                        }
+                        connection.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Could not reach the database. Check your connection.");
+                    }
                 }
             }
         }
 
         private void btnRemove_Click(object sender, EventArgs e) //delete student from Students, Absences
         {
-            //TODO - check if trying to delete own user
             if (lstStudents.SelectedItems.Count == 1)
             {
                 string StudentID = lstStudents.SelectedItems[0].Text;
@@ -833,7 +911,7 @@ namespace csNEA
                 }
             }
             else
-                MessageBox.Show("You need to select a student from the list first.");            
+                MessageBox.Show("You need to select a student from the list first.");
         }
     }
 }

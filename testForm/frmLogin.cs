@@ -37,7 +37,7 @@ namespace csNEA
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            bool success = false;            
+            bool success = false;
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.DataSource = txtDatabase.Text;
             builder.UserID = "adminDB";
