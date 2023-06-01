@@ -105,8 +105,6 @@ namespace csNEA
                     else
                     {
                         listOfUsers.Clear();
-                        details details = new details();
-                        details.ShowDialog();
                     }
                 }
             }

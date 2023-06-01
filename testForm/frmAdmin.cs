@@ -183,11 +183,11 @@ namespace csNEA
                             String sql;
                             if (scGrp[j, i] == "NULL")
                             {
-                                sql = "Insert into Teachings (PeriodID, LessonID, TeacherUsername, Day, [Group]) Values(" + m + ", " + sc[j, i] + ", '" + selectedUser + "', " + k + ", NULL);";
+                                sql = "Insert into Teachings (PeriodID, LessonID, TeacherUsername, Day, GroupID) Values(" + m + ", " + sc[j, i] + ", '" + selectedUser + "', " + k + ", NULL);";
                             }
                             else
                             {
-                                sql = "Insert into Teachings (PeriodID, LessonID, TeacherUsername, Day, [Group]) Values(" + m + ", " + sc[j, i] + ", '" + selectedUser + "', " + k + ", '" + scGrp[j, i] + "');";
+                                sql = "Insert into Teachings (PeriodID, LessonID, TeacherUsername, Day, GroupID) Values(" + m + ", " + sc[j, i] + ", '" + selectedUser + "', " + k + ", '" + scGrp[j, i] + "');";
                             }
 
                             using (SqlCommand command = new SqlCommand(sql, connection))
@@ -240,6 +240,7 @@ namespace csNEA
                             user.SubItems.Add(reader.GetString(3));
                             user.SubItems.Add(reader.GetBoolean(4).ToString());
                             lstUsers.Items.Add(user);
+                            cmbTeacherRep.Items.Add(reader.GetString(0));
                         }
                         reader.Close();
                     }
@@ -340,10 +341,15 @@ namespace csNEA
             }
             else
             {
-                String sql = "Insert into Groups (GroupID) Values('" + txtGroup.Text + "');";
-                ExecuteSQLInsert(sql);
+                if (cmbTeacherRep.SelectedIndex == -1) { MessageBox.Show("You must select a teacher representative."); }
+                else
+                {
+                    String sql = "Insert into Groups (GroupID, TeacherRep) Values('" + txtGroup.Text + "', '" + cmbTeacherRep.Text + "');";
+                    ExecuteSQLInsert(sql);
 
-                UpdateGroupsList();
+                    UpdateGroupsList();
+                }
+
             }
         }
         public void UpdateGroupsList()
@@ -353,7 +359,6 @@ namespace csNEA
             cmbFinalGroup.Items.Clear();
             cmbGroups.Items.Clear();
             cmbAbsentGroups.Items.Clear();
-            cmbMentors.Items.Clear();
 
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
@@ -369,7 +374,6 @@ namespace csNEA
                             ListViewItem group = new ListViewItem(reader.GetString(0));
                             cmbGroups.Items.Add(reader.GetString(0));
                             cmbInitialGroup.Items.Add(reader.GetString(0));
-                            cmbMentors.Items.Add(reader.GetString(0));
                             cmbAbsentGroups.Items.Add(reader.GetString(0));
                             cmbFinalGroup.Items.Add(reader.GetString(0));
                             if (!reader.IsDBNull(1))
@@ -382,24 +386,6 @@ namespace csNEA
                     }
                     connection.Close();
                 }
-            }
-        }
-
-        private void btnMentorSet_Click(object sender, EventArgs e)
-        {
-            string group = cmbMentors.Text;
-            string userSelected = lstUsers.SelectedItems[0].Text;
-            if (group != null)
-            {
-                String sql = "UPDATE Groups SET TeacherRep = null WHERE TeacherRep = '" + userSelected + "';"; //Removes user as Representative of any other group.
-                ExecuteSQLInsert(sql);
-
-                sql = "UPDATE Groups SET TeacherRep = '" + userSelected + "' WHERE GroupID='" + group + "';"; //Assigns user as Representative of a group.
-                ExecuteSQLInsert(sql);
-
-                MessageBox.Show("Group properties saved successfuly.");
-                cmbMentors.Text = "";
-                UpdateGroupsList(); //maybe
             }
         }
 
@@ -685,7 +671,7 @@ namespace csNEA
                 ExecuteSQLInsert(sql);
 
                 UpdateSemList();
-            }            
+            }
         }
         private void DeleteAbsencesFromDate(DateTime date)
         {
@@ -912,6 +898,11 @@ namespace csNEA
             }
             else
                 MessageBox.Show("You need to select a student from the list first.");
+        }
+
+        private void btnRemoveGrpAndStudents_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
