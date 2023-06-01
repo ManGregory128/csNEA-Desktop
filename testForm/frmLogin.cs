@@ -40,9 +40,9 @@ namespace csNEA
             bool success = false;
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.DataSource = txtDatabase.Text;
-            builder.UserID = "adminDB";
+            builder.UserID = "SA";
             builder.Password = txtDBPassword.Text;
-            builder.InitialCatalog = "aradippou5";
+            builder.InitialCatalog = "kiti";
             
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {

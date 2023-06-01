@@ -29,9 +29,9 @@ namespace csNEA
             builder = new SqlConnectionStringBuilder
             {
                 DataSource = input,
-                UserID = "adminDB",
+                UserID = "SA",
                 Password = password,
-                InitialCatalog = "aradippou5"
+                InitialCatalog = "kiti"
             };
         }
         private void btnRegister_Click(object sender, EventArgs e)
