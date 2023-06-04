@@ -114,7 +114,6 @@ namespace csNEA
             this.txtFatherName.Name = "txtFatherName";
             this.txtFatherName.Size = new System.Drawing.Size(177, 20);
             this.txtFatherName.TabIndex = 6;
-            this.txtFatherName.TextChanged += new System.EventHandler(this.txtFatherName_TextChanged);
             // 
             // txtFatherPhone
             // 
@@ -215,7 +214,6 @@ namespace csNEA
             this.label8.Size = new System.Drawing.Size(75, 13);
             this.label8.TabIndex = 19;
             this.label8.Text = "Mobile Phone:";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // label9
             // 
@@ -225,7 +223,6 @@ namespace csNEA
             this.label9.Size = new System.Drawing.Size(57, 13);
             this.label9.TabIndex = 18;
             this.label9.Text = "Full Name:";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // label10
             // 

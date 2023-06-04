@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using csNEA.Properties;
 using Windows.UI.WindowManagement;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics.Eventing.Reader;
 
 namespace csNEA
 {
@@ -22,6 +23,7 @@ namespace csNEA
         User tempUser = new User();
         public static string passUser;
         public static char passRights;
+
         ConfigurationBuilder appConfig = new ConfigurationBuilder();
         public frmLogin()
         {
@@ -45,7 +47,8 @@ namespace csNEA
             builder.UserID = "SA";
             builder.Password = Settings.Default.DBpassword;
             builder.InitialCatalog = cmbSchool.Text;
-
+            DataHandler.connectionString = builder.ConnectionString;
+            
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
 
@@ -129,10 +132,11 @@ namespace csNEA
                 Settings.Default.Save();
             }
             string connectionString = "Server=" + Settings.Default.DBaddress + ";User Id=SA;Password=" + txtDBPassword.Text + ";";
-            using (SqlConnection con = new SqlConnection(connectionString))
+            if (DataHandler.SetConnectionString(connectionString))
             {
-                try
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
+
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand("SELECT name from sys.databases", con))
                     {
@@ -160,8 +164,8 @@ namespace csNEA
                     btnConnect.Enabled = true;
                     cmbSchool.Enabled = true;
                 }
-                catch { MessageBox.Show("Login Failed"); }
             }
+            else MessageBox.Show("Login Failed");
         }
     }
 

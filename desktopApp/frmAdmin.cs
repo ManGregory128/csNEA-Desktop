@@ -403,7 +403,7 @@ namespace csNEA
                 {
                     var line = reader.ReadLine();
                     var values = line.Split(',');
-                    tempStudent = new Student(values[0], values[1], values[2], values[3], values[4], values[5], values[6], int.Parse(values[7]), int.Parse(values[8]), int.Parse(values[9]));
+                    tempStudent = new Student(0, values[0], values[1], values[2], values[3], values[4], values[5], values[6], int.Parse(values[7]), int.Parse(values[8]), int.Parse(values[9]));
                     students.Add(tempStudent);
                 }
                 UploadStudents(students);
@@ -435,36 +435,22 @@ namespace csNEA
         private void btnDisGroup_Click(object sender, EventArgs e)
         {
             lstStudents.Items.Clear();
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+
+            List<Student> students = DataHandler.GetStudents(cmbGroups.Text);
+            foreach (Student student in students)
             {
-                String sql = "SELECT StudentID, FirstName, LastName, StudentGroup, MotherName, MotherPhone, FatherName, FatherPhone, ThirdName, ThirdRole, ThirdPhone FROM dbo.Students WHERE StudentGroup='" + cmbGroups.Text + "';";
-
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            ListViewItem student = new ListViewItem(reader.GetInt32(0).ToString()); //ID
-                            student.SubItems.Add(reader.GetString(1)); //FirstName
-                            student.SubItems.Add(reader.GetString(2)); //LastName
-                            student.SubItems.Add(reader.GetString(3)); //Group
-                            student.SubItems.Add(reader.GetString(4)); //Mother's Name
-                            student.SubItems.Add(reader.GetInt32(5).ToString()); //Mother's Phone Number                            
-                            student.SubItems.Add(reader.GetString(6)); //Father's Name
-                            student.SubItems.Add(reader.GetInt32(7).ToString()); //Father's Phone Number
-                            student.SubItems.Add(reader.GetString(8)); //Backup Contact's Name
-                            if (!reader.IsDBNull(9))
-                                student.SubItems.Add(reader.GetString(9)); //Backup Contact's Role
-                            student.SubItems.Add(reader.GetInt32(10).ToString()); //Backup Contact's Phone Number                            
-
-                            lstStudents.Items.Add(student);
-                        }
-                        reader.Close();
-                    }
-                    connection.Close();
-                }
+                ListViewItem studentItem = new ListViewItem(student.StudentID.ToString());
+                studentItem.SubItems.Add(student.FirstName);
+                studentItem.SubItems.Add(student.LastName);
+                studentItem.SubItems.Add(student.Group);
+                studentItem.SubItems.Add(student.MothersName);
+                studentItem.SubItems.Add(student.MotherPhone.ToString());
+                studentItem.SubItems.Add(student.FathersName);
+                studentItem.SubItems.Add(student.FatherPhone.ToString());
+                studentItem.SubItems.Add(student.ThirdName);
+                studentItem.SubItems.Add(student.ThirdRole);
+                studentItem.SubItems.Add(student.ThirdPhone.ToString());
+                lstStudents.Items.Add(studentItem);
             }
         }
 
@@ -472,37 +458,21 @@ namespace csNEA
         {
             lstStudents.Items.Clear();
 
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            List<Student> students = DataHandler.GetStudents(String.Empty);
+            foreach (Student student in students)
             {
-                String sql = "SELECT StudentID, FirstName, LastName, StudentGroup, MotherName, MotherPhone, FatherName, FatherPhone, ThirdName, ThirdRole, ThirdPhone FROM dbo.Students;";
-
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            ListViewItem student = new ListViewItem(reader.GetInt32(0).ToString()); //ID
-                            student.SubItems.Add(reader.GetString(1)); //FirstName
-                            student.SubItems.Add(reader.GetString(2)); //LastName
-                            student.SubItems.Add(reader.GetString(3)); //Group
-                            student.SubItems.Add(reader.GetString(4)); //Mother's Name
-                            student.SubItems.Add(reader.GetInt32(5).ToString()); //Mother's Phone Number
-                            student.SubItems.Add(reader.GetString(6)); //Father's Name
-                            student.SubItems.Add(reader.GetInt32(7).ToString()); //Father's Phone Number
-                            student.SubItems.Add(reader.GetString(8)); //Backup Contact's Name
-                            if (!reader.IsDBNull(9))
-                                student.SubItems.Add(reader.GetString(9)); //Backup Contact's Role
-                            student.SubItems.Add(reader.GetInt32(10).ToString()); //Backup Contact's Phone Number
-                            //if (!reader.IsDBNull(1))
-
-                            lstStudents.Items.Add(student);
-                        }
-                        reader.Close();
-                    }
-                    connection.Close();
-                }
+                ListViewItem studentItem = new ListViewItem(student.StudentID.ToString());
+                studentItem.SubItems.Add(student.FirstName);
+                studentItem.SubItems.Add(student.LastName);
+                studentItem.SubItems.Add(student.Group);
+                studentItem.SubItems.Add(student.MothersName);
+                studentItem.SubItems.Add(student.MotherPhone.ToString());
+                studentItem.SubItems.Add(student.FathersName);
+                studentItem.SubItems.Add(student.FatherPhone.ToString());
+                studentItem.SubItems.Add(student.ThirdName);
+                studentItem.SubItems.Add(student.ThirdRole);
+                studentItem.SubItems.Add(student.ThirdPhone.ToString());
+                lstStudents.Items.Add(studentItem);
             }
         }
 
@@ -757,7 +727,7 @@ namespace csNEA
                     {
                         while (reader.Read())
                         {
-                            tempStudent = new Student(reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(6), reader.GetString(8), reader.GetString(9), reader.GetInt32(5), reader.GetInt32(7), reader.GetInt32(10));
+                            tempStudent = new Student(0, reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(6), reader.GetString(8), reader.GetString(9), reader.GetInt32(5), reader.GetInt32(7), reader.GetInt32(10));
                             studentsToCsv.Add(tempStudent);
                         }
                         reader.Close();
@@ -799,7 +769,7 @@ namespace csNEA
                     else
                     {
                         string userToDelete = lstUsers.SelectedItems[0].Text;
-                        string message = "Are you sure you want to delete student with Username " + userToDelete + "?";
+                        string message = "Are you sure you want to delete user " + userToDelete + "?";
                         string title = "Confirmation";
                         MessageBoxButtons buttons = MessageBoxButtons.YesNo;
                         DialogResult result = MessageBox.Show(message, title, buttons);

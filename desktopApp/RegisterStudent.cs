@@ -25,7 +25,9 @@ namespace csNEA
         private void btnAddStudent_Click(object sender, EventArgs e)
         {
             int dump;
-            if (txtFirstName.Text == null || txtLastName.Text == null || cmbGroups.Text == null || txtMotherName.Text == null || txtFatherName.Text == null || !int.TryParse(txtMotherPhone.Text, out dump) || !int.TryParse(txtFatherPhone.Text, out dump) || !int.TryParse(txtThirdNo.Text, out dump) || txtThirdName.Text == null)
+            if (txtFirstName.Text == String.Empty || txtLastName.Text == String.Empty || cmbGroups.Text == String.Empty || txtMotherName.Text == String.Empty || 
+                txtFatherName.Text == String.Empty || !int.TryParse(txtMotherPhone.Text, out dump) || !int.TryParse(txtFatherPhone.Text, out dump) || 
+                !int.TryParse(txtThirdNo.Text, out dump) || txtThirdName.Text == String.Empty || txtThirdRole.Text == String.Empty)
             {
                 MessageBox.Show("Make sure all fields are filled in, and that valid phone numbers are provided without spaces and try again.");
             }
@@ -36,16 +38,11 @@ namespace csNEA
                     using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                     {
                         String sql;
-                        if (txtThirdRole.Text == null)
-                        {
-                            sql = "Insert into Students (FirstName, LastName, StudentGroup, MotherName, MotherPhone, FatherName, FatherPhone, ThirdName, ThirdRole, ThirdPhone) " +
-                            "Values('" + txtFirstName.Text + "', '" + txtLastName.Text + "', '" + cmbGroups.Text + "', '" + txtMotherName.Text + "', " + txtMotherPhone.Text + ", '" + txtFatherName.Text + "', " + txtFatherPhone.Text + ", '" + txtThirdName.Text + "', '" + txtThirdRole.Text + "', " + txtThirdNo.Text + ");";
-                        }
-                        else
-                        {
-                            sql = "Insert into Students (FirstName, LastName, StudentGroup, MotherName, MotherPhone, FatherName, FatherPhone, ThirdName, ThirdPhone) " +
-                            "Values('" + txtFirstName.Text + "', '" + txtLastName.Text + "', '" + cmbGroups.Text + "', '" + txtMotherName.Text + "', " + txtMotherPhone.Text + ", '" + txtFatherName.Text + "', " + txtFatherPhone.Text + ", '" + txtThirdName.Text + "', " + txtThirdNo.Text + ");";
-                        }
+                        
+                        sql = "Insert into Students (FirstName, LastName, StudentGroup, MotherName, MotherPhone, FatherName, FatherPhone, ThirdName, ThirdPhone, ThirdRole) " +
+                            "Values('" + txtFirstName.Text + "', '" + txtLastName.Text + "', '" + cmbGroups.Text + "', '" + txtMotherName.Text + "', " + txtMotherPhone.Text + 
+                            ", '" + txtFatherName.Text + "', " + txtFatherPhone.Text + ", '" + txtThirdName.Text + "', " + txtThirdNo.Text + ", '" + txtThirdRole.Text + "');";
+                        
 
                         using (SqlCommand command = new SqlCommand(sql, connection))
                         {
@@ -87,27 +84,12 @@ namespace csNEA
             }
         }
 
-        private void txtFatherName_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Visible = false;
             frmAdmin admin = new frmAdmin();
             //update students list not necessary
-            admin.Show();
+            admin.ShowDialog();
         }
     }
 }
