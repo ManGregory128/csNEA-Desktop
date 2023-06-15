@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAdmin));
             btnRegister = new System.Windows.Forms.Button();
-            btnLogOut = new System.Windows.Forms.Button();
-            adminTabs = new System.Windows.Forms.TabControl();
+            adminTabs = new MaterialSkin.Controls.MaterialTabControl();
             tabAbsences = new System.Windows.Forms.TabPage();
             label15 = new System.Windows.Forms.Label();
             nmPeriod = new System.Windows.Forms.NumericUpDown();
@@ -129,6 +129,8 @@
             lstLessons = new System.Windows.Forms.ListView();
             columnLessonID = new System.Windows.Forms.ColumnHeader();
             columnLessonName = new System.Windows.Forms.ColumnHeader();
+            logOut = new System.Windows.Forms.TabPage();
+            tabImages = new System.Windows.Forms.ImageList(components);
             btnFeedPost = new System.Windows.Forms.Button();
             uploadSchDiag = new System.Windows.Forms.OpenFileDialog();
             uploadStudentsDiag = new System.Windows.Forms.OpenFileDialog();
@@ -157,18 +159,6 @@
             btnRegister.UseVisualStyleBackColor = true;
             btnRegister.Click += btnRegister_Click;
             // 
-            // btnLogOut
-            // 
-            btnLogOut.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            btnLogOut.Location = new System.Drawing.Point(14, 553);
-            btnLogOut.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            btnLogOut.Name = "btnLogOut";
-            btnLogOut.Size = new System.Drawing.Size(88, 27);
-            btnLogOut.TabIndex = 1;
-            btnLogOut.Text = "Log Out";
-            btnLogOut.UseVisualStyleBackColor = true;
-            btnLogOut.Click += btnLogOut_Click;
-            // 
             // adminTabs
             // 
             adminTabs.Controls.Add(tabAbsences);
@@ -177,16 +167,23 @@
             adminTabs.Controls.Add(tabGroups);
             adminTabs.Controls.Add(usersPage);
             adminTabs.Controls.Add(tabLessons);
-            adminTabs.Location = new System.Drawing.Point(14, 14);
+            adminTabs.Controls.Add(logOut);
+            adminTabs.Depth = 0;
+            adminTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            adminTabs.ImageList = tabImages;
+            adminTabs.Location = new System.Drawing.Point(3, 64);
             adminTabs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            adminTabs.MouseState = MaterialSkin.MouseState.HOVER;
+            adminTabs.Multiline = true;
             adminTabs.Name = "adminTabs";
             adminTabs.SelectedIndex = 0;
-            adminTabs.Size = new System.Drawing.Size(950, 523);
+            adminTabs.Size = new System.Drawing.Size(1002, 566);
             adminTabs.TabIndex = 2;
             adminTabs.SelectedIndexChanged += adminTabs_SelectedIndexChanged;
             // 
             // tabAbsences
             // 
+            tabAbsences.BackColor = System.Drawing.Color.White;
             tabAbsences.Controls.Add(label15);
             tabAbsences.Controls.Add(nmPeriod);
             tabAbsences.Controls.Add(btnFlatGen);
@@ -196,14 +193,14 @@
             tabAbsences.Controls.Add(dtRegistrar);
             tabAbsences.Controls.Add(btnGroupAbsent);
             tabAbsences.Controls.Add(lstAbsences);
-            tabAbsences.Location = new System.Drawing.Point(4, 24);
+            tabAbsences.ImageKey = "clipboard-user-solid.png";
+            tabAbsences.Location = new System.Drawing.Point(4, 74);
             tabAbsences.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             tabAbsences.Name = "tabAbsences";
             tabAbsences.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            tabAbsences.Size = new System.Drawing.Size(942, 495);
+            tabAbsences.Size = new System.Drawing.Size(994, 488);
             tabAbsences.TabIndex = 4;
             tabAbsences.Text = "Absences";
-            tabAbsences.UseVisualStyleBackColor = true;
             // 
             // label15
             // 
@@ -246,7 +243,6 @@
             label3.Size = new System.Drawing.Size(68, 15);
             label3.TabIndex = 13;
             label3.Text = "Select Date:";
-            label3.Click += label3_Click;
             // 
             // label2
             // 
@@ -353,6 +349,7 @@
             // 
             // tabStudents
             // 
+            tabStudents.BackColor = System.Drawing.Color.White;
             tabStudents.Controls.Add(btnShowAllStudents);
             tabStudents.Controls.Add(btnRemove);
             tabStudents.Controls.Add(btnStudentManualAdd);
@@ -361,14 +358,14 @@
             tabStudents.Controls.Add(label1);
             tabStudents.Controls.Add(cmbGroups);
             tabStudents.Controls.Add(lstStudents);
-            tabStudents.Location = new System.Drawing.Point(4, 24);
+            tabStudents.ImageKey = "graduation-cap-solid.png";
+            tabStudents.Location = new System.Drawing.Point(4, 74);
             tabStudents.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             tabStudents.Name = "tabStudents";
             tabStudents.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            tabStudents.Size = new System.Drawing.Size(942, 495);
+            tabStudents.Size = new System.Drawing.Size(994, 488);
             tabStudents.TabIndex = 2;
             tabStudents.Text = "Students Management";
-            tabStudents.UseVisualStyleBackColor = true;
             // 
             // btnShowAllStudents
             // 
@@ -385,7 +382,7 @@
             // 
             btnRemove.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             btnRemove.ForeColor = System.Drawing.Color.DarkRed;
-            btnRemove.Location = new System.Drawing.Point(782, 442);
+            btnRemove.Location = new System.Drawing.Point(825, 460);
             btnRemove.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             btnRemove.Name = "btnRemove";
             btnRemove.Size = new System.Drawing.Size(152, 44);
@@ -514,18 +511,19 @@
             // 
             // datesPage
             // 
+            datesPage.BackColor = System.Drawing.Color.White;
             datesPage.Controls.Add(label14);
             datesPage.Controls.Add(btnDeleteSem);
             datesPage.Controls.Add(groupBox4);
             datesPage.Controls.Add(lstSemesters);
-            datesPage.Location = new System.Drawing.Point(4, 24);
+            datesPage.ImageKey = "calendar-days-regular.png";
+            datesPage.Location = new System.Drawing.Point(4, 74);
             datesPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             datesPage.Name = "datesPage";
             datesPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            datesPage.Size = new System.Drawing.Size(942, 495);
+            datesPage.Size = new System.Drawing.Size(994, 488);
             datesPage.TabIndex = 1;
             datesPage.Text = "Calendar Management";
-            datesPage.UseVisualStyleBackColor = true;
             // 
             // label14
             // 
@@ -537,7 +535,6 @@
             label14.TabIndex = 6;
             label14.Text = "NOTE: By deleting a Semester, all Absence Data collected that matches the semester will also be deleted.";
             label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            label14.Click += label14_Click;
             // 
             // btnDeleteSem
             // 
@@ -642,7 +639,7 @@
             lstSemesters.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnSemNo, columnSemStart, columnSemEnd });
             lstSemesters.FullRowSelect = true;
             lstSemesters.GridLines = true;
-            lstSemesters.Location = new System.Drawing.Point(446, 7);
+            lstSemesters.Location = new System.Drawing.Point(476, 36);
             lstSemesters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             lstSemesters.Name = "lstSemesters";
             lstSemesters.Size = new System.Drawing.Size(487, 478);
@@ -667,19 +664,19 @@
             // 
             // tabGroups
             // 
+            tabGroups.BackColor = System.Drawing.Color.White;
             tabGroups.Controls.Add(groupBox2);
             tabGroups.Controls.Add(btnRemoveGrpAndStudents);
             tabGroups.Controls.Add(groupBox1);
             tabGroups.Controls.Add(lstGroups);
-            tabGroups.Location = new System.Drawing.Point(4, 24);
+            tabGroups.ImageKey = "users-rectangle-solid.png";
+            tabGroups.Location = new System.Drawing.Point(4, 74);
             tabGroups.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             tabGroups.Name = "tabGroups";
             tabGroups.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            tabGroups.Size = new System.Drawing.Size(942, 495);
+            tabGroups.Size = new System.Drawing.Size(994, 488);
             tabGroups.TabIndex = 3;
             tabGroups.Text = "Groups Management";
-            tabGroups.UseVisualStyleBackColor = true;
-            tabGroups.Click += tabGroups_Click;
             // 
             // groupBox2
             // 
@@ -718,7 +715,6 @@
             label8.Size = new System.Drawing.Size(313, 40);
             label8.TabIndex = 4;
             label8.Text = "NOTE: Make Sure that there are no students in the target group to avoid merging groups.";
-            label8.Click += label8_Click;
             // 
             // label7
             // 
@@ -864,19 +860,20 @@
             // 
             // usersPage
             // 
+            usersPage.BackColor = System.Drawing.Color.White;
             usersPage.Controls.Add(btnChangePassword);
             usersPage.Controls.Add(btnSchedule);
             usersPage.Controls.Add(btnRemoveUser);
             usersPage.Controls.Add(lstUsers);
             usersPage.Controls.Add(btnRegister);
-            usersPage.Location = new System.Drawing.Point(4, 24);
+            usersPage.ImageKey = "chalkboard-user-solid.png";
+            usersPage.Location = new System.Drawing.Point(4, 74);
             usersPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             usersPage.Name = "usersPage";
             usersPage.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            usersPage.Size = new System.Drawing.Size(942, 495);
+            usersPage.Size = new System.Drawing.Size(994, 488);
             usersPage.TabIndex = 0;
             usersPage.Text = "Users Management";
-            usersPage.UseVisualStyleBackColor = true;
             usersPage.Click += usersPage_Click;
             // 
             // btnChangePassword
@@ -952,18 +949,19 @@
             // 
             // tabLessons
             // 
+            tabLessons.BackColor = System.Drawing.Color.White;
             tabLessons.Controls.Add(label10);
             tabLessons.Controls.Add(btnDelLesson);
             tabLessons.Controls.Add(groupBox3);
             tabLessons.Controls.Add(lstLessons);
-            tabLessons.Location = new System.Drawing.Point(4, 24);
+            tabLessons.ImageKey = "book-solid.png";
+            tabLessons.Location = new System.Drawing.Point(4, 74);
             tabLessons.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             tabLessons.Name = "tabLessons";
             tabLessons.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            tabLessons.Size = new System.Drawing.Size(942, 495);
+            tabLessons.Size = new System.Drawing.Size(994, 488);
             tabLessons.TabIndex = 5;
             tabLessons.Text = "Lessons Management";
-            tabLessons.UseVisualStyleBackColor = true;
             tabLessons.Click += tabLessons_Click;
             // 
             // label10
@@ -1074,13 +1072,36 @@
             columnLessonName.Text = "Lesson Name";
             columnLessonName.Width = 174;
             // 
+            // logOut
+            // 
+            logOut.BackColor = System.Drawing.Color.White;
+            logOut.ImageKey = "logout.png";
+            logOut.Location = new System.Drawing.Point(4, 74);
+            logOut.Name = "logOut";
+            logOut.Size = new System.Drawing.Size(994, 488);
+            logOut.TabIndex = 6;
+            logOut.Text = "Log Out";
+            // 
+            // tabImages
+            // 
+            tabImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            tabImages.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("tabImages.ImageStream");
+            tabImages.TransparentColor = System.Drawing.Color.Transparent;
+            tabImages.Images.SetKeyName(0, "clipboard-user-solid.png");
+            tabImages.Images.SetKeyName(1, "graduation-cap-solid.png");
+            tabImages.Images.SetKeyName(2, "calendar-days-regular.png");
+            tabImages.Images.SetKeyName(3, "users-rectangle-solid.png");
+            tabImages.Images.SetKeyName(4, "chalkboard-user-solid.png");
+            tabImages.Images.SetKeyName(5, "book-solid.png");
+            tabImages.Images.SetKeyName(6, "logout.png");
+            // 
             // btnFeedPost
             // 
-            btnFeedPost.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            btnFeedPost.Location = new System.Drawing.Point(443, 543);
+            btnFeedPost.Dock = System.Windows.Forms.DockStyle.Bottom;
+            btnFeedPost.Location = new System.Drawing.Point(3, 594);
             btnFeedPost.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             btnFeedPost.Name = "btnFeedPost";
-            btnFeedPost.Size = new System.Drawing.Size(93, 36);
+            btnFeedPost.Size = new System.Drawing.Size(1002, 36);
             btnFeedPost.TabIndex = 3;
             btnFeedPost.Text = "Post to Feed";
             btnFeedPost.UseVisualStyleBackColor = true;
@@ -1100,14 +1121,18 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(978, 593);
+            ClientSize = new System.Drawing.Size(1008, 633);
             Controls.Add(btnFeedPost);
             Controls.Add(adminTabs);
-            Controls.Add(btnLogOut);
+            DrawerShowIconsWhenHidden = true;
+            DrawerTabControl = adminTabs;
+            ForeColor = System.Drawing.SystemColors.ControlText;
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
             Name = "frmAdmin";
-            Text = "Attendance Systen Control Panel";
+            Sizable = false;
+            Text = "Paron App - Control Panel";
             Load += frmAdmin_Load;
             adminTabs.ResumeLayout(false);
             tabAbsences.ResumeLayout(false);
@@ -1133,8 +1158,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnRegister;
-        private System.Windows.Forms.Button btnLogOut;
-        private System.Windows.Forms.TabControl adminTabs;
         private System.Windows.Forms.TabPage usersPage;
         private System.Windows.Forms.TabPage datesPage;
         private System.Windows.Forms.ListView lstUsers;
@@ -1235,5 +1258,8 @@
         private System.Windows.Forms.NumericUpDown nmPeriod;
         private System.Windows.Forms.ComboBox cmbTeacherRep;
         private System.Windows.Forms.Label label16;
+        private MaterialSkin.Controls.MaterialTabControl adminTabs;
+        private System.Windows.Forms.TabPage logOut;
+        private System.Windows.Forms.ImageList tabImages;
     }
 }

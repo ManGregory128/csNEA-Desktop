@@ -50,7 +50,7 @@
             // 
             btnConnect.Anchor = System.Windows.Forms.AnchorStyles.Top;
             btnConnect.Enabled = false;
-            btnConnect.Location = new System.Drawing.Point(70, 179);
+            btnConnect.Location = new System.Drawing.Point(89, 240);
             btnConnect.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             btnConnect.Name = "btnConnect";
             btnConnect.Size = new System.Drawing.Size(132, 27);
@@ -119,7 +119,7 @@
             groupBox1.Controls.Add(txtDBPassword);
             groupBox1.Controls.Add(cmbSchool);
             groupBox1.Controls.Add(label2);
-            groupBox1.Location = new System.Drawing.Point(267, 14);
+            groupBox1.Location = new System.Drawing.Point(278, 75);
             groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -186,7 +186,7 @@
             groupBox2.Controls.Add(txtUser);
             groupBox2.Controls.Add(lblUser);
             groupBox2.Controls.Add(label1);
-            groupBox2.Location = new System.Drawing.Point(14, 14);
+            groupBox2.Location = new System.Drawing.Point(25, 75);
             groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -200,7 +200,7 @@
             AcceptButton = btnConnect;
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(479, 266);
+            ClientSize = new System.Drawing.Size(494, 327);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(btnConnect);

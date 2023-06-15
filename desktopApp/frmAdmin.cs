@@ -12,10 +12,11 @@ using System.IO;
 using System.Data.SqlClient;
 using CsvHelper;
 using System.Globalization;
+using MaterialSkin.Controls;
 
 namespace csNEA
 {
-    public partial class frmAdmin : Form
+    public partial class frmAdmin : MaterialForm
     {
         public static SqlConnectionStringBuilder builder { get; set; }
         public static string currentUser { get; set; }
@@ -42,14 +43,6 @@ namespace csNEA
             register.ShowDialog();
         }
 
-        private void btnLogOut_Click(object sender, EventArgs e)
-        {
-            this.Visible = false;
-            //MessageBox.Show("Goodbye!");
-            frmLogin logIn = new frmLogin();
-            logIn.ShowDialog();
-        }
-
         private void usersPage_Click(object sender, EventArgs e)
         {
 
@@ -70,7 +63,14 @@ namespace csNEA
 
         private void adminTabs_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            if (frmLogin.passRights == 's' && (adminTabs.SelectedTab == usersPage || adminTabs.SelectedTab == tabLessons || adminTabs.SelectedTab == datesPage))
+            if (adminTabs.SelectedTab == logOut)
+            {
+                this.Visible = false;
+                //MessageBox.Show("Goodbye!");
+                frmLogin logIn = new frmLogin();
+                logIn.ShowDialog();
+            }
+            else if (frmLogin.passRights == 's' && (adminTabs.SelectedTab == usersPage || adminTabs.SelectedTab == tabLessons || adminTabs.SelectedTab == datesPage))
             {
                 MessageBox.Show("Unable to load tab. You have insufficient access privileges.");
                 adminTabs.SelectedTab = tabAbsences;
@@ -101,21 +101,6 @@ namespace csNEA
 
                 MessageBox.Show("Post Uploaded Successfully.");
             }
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabGroups_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnSchedule_Click(object sender, EventArgs e)
@@ -594,11 +579,6 @@ namespace csNEA
             }
         }
 
-        private void label14_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnDeleteSem_Click(object sender, EventArgs e)
         {
             DateTime startDate = dtInitial.Value, endDate = dtFinal.Value;
@@ -872,7 +852,7 @@ namespace csNEA
 
         private void btnRemoveGrpAndStudents_Click(object sender, EventArgs e)
         {
-
+            //TODO
         }
     }
 }

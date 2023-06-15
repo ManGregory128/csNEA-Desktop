@@ -13,11 +13,12 @@ using csNEA.Properties;
 using Windows.UI.WindowManagement;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics.Eventing.Reader;
+using MaterialSkin.Controls;
 
 namespace csNEA
 {
 
-    public partial class frmLogin : Form
+    public partial class frmLogin : MaterialForm
     {
         List<User> listOfUsers = new List<User>() { };
         User tempUser = new User();
@@ -48,7 +49,7 @@ namespace csNEA
             builder.Password = Settings.Default.DBpassword;
             builder.InitialCatalog = cmbSchool.Text;
             DataHandler.connectionString = builder.ConnectionString;
-            
+
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
 

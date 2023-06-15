@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Data.SqlClient;
+using MaterialSkin.Controls;
 
 namespace csNEA
 {
-    public partial class Register : Form
+    public partial class Register : MaterialForm
     {
         public static SqlConnectionStringBuilder builder { get; set; }
         public Register()
