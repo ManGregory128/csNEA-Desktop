@@ -41,7 +41,7 @@
             cmbAbsentGroups = new System.Windows.Forms.ComboBox();
             dtRegistrar = new System.Windows.Forms.DateTimePicker();
             btnGroupAbsent = new System.Windows.Forms.Button();
-            lstAbsences = new System.Windows.Forms.ListView();
+            lstAbsences = new MaterialSkin.Controls.MaterialListView();
             columnHeader1 = new System.Windows.Forms.ColumnHeader();
             columnHeader2 = new System.Windows.Forms.ColumnHeader();
             columnHeader3 = new System.Windows.Forms.ColumnHeader();
@@ -61,7 +61,7 @@
             btnDisGroup = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             cmbGroups = new System.Windows.Forms.ComboBox();
-            lstStudents = new System.Windows.Forms.ListView();
+            lstStudents = new MaterialSkin.Controls.MaterialListView();
             IDColumn = new System.Windows.Forms.ColumnHeader();
             FirstNameCol = new System.Windows.Forms.ColumnHeader();
             LastNameCol = new System.Windows.Forms.ColumnHeader();
@@ -84,7 +84,7 @@
             btnAddSemester = new System.Windows.Forms.Button();
             dtInitial = new System.Windows.Forms.DateTimePicker();
             dtFinal = new System.Windows.Forms.DateTimePicker();
-            lstSemesters = new System.Windows.Forms.ListView();
+            lstSemesters = new MaterialSkin.Controls.MaterialListView();
             columnSemNo = new System.Windows.Forms.ColumnHeader();
             columnSemStart = new System.Windows.Forms.ColumnHeader();
             columnSemEnd = new System.Windows.Forms.ColumnHeader();
@@ -103,7 +103,7 @@
             btnAddGroup = new System.Windows.Forms.Button();
             label5 = new System.Windows.Forms.Label();
             txtGroup = new System.Windows.Forms.TextBox();
-            lstGroups = new System.Windows.Forms.ListView();
+            lstGroups = new MaterialSkin.Controls.MaterialListView();
             columnGrp = new System.Windows.Forms.ColumnHeader();
             columnMentorUser = new System.Windows.Forms.ColumnHeader();
             columnnoOfStudents = new System.Windows.Forms.ColumnHeader();
@@ -111,7 +111,7 @@
             btnChangePassword = new System.Windows.Forms.Button();
             btnSchedule = new System.Windows.Forms.Button();
             btnRemoveUser = new System.Windows.Forms.Button();
-            lstUsers = new System.Windows.Forms.ListView();
+            lstUsers = new MaterialSkin.Controls.MaterialListView();
             usernameColumn = new System.Windows.Forms.ColumnHeader();
             firstNameColumn = new System.Windows.Forms.ColumnHeader();
             lastNameColumn = new System.Windows.Forms.ColumnHeader();
@@ -126,7 +126,7 @@
             btnAddLesson = new System.Windows.Forms.Button();
             label9 = new System.Windows.Forms.Label();
             txtLesson = new System.Windows.Forms.TextBox();
-            lstLessons = new System.Windows.Forms.ListView();
+            lstLessons = new MaterialSkin.Controls.MaterialListView();
             columnLessonID = new System.Windows.Forms.ColumnHeader();
             columnLessonName = new System.Windows.Forms.ColumnHeader();
             logOut = new System.Windows.Forms.TabPage();
@@ -284,13 +284,20 @@
             // 
             // lstAbsences
             // 
+            lstAbsences.AutoSizeTable = false;
+            lstAbsences.BackColor = System.Drawing.Color.FromArgb(255, 255, 255);
+            lstAbsences.BorderStyle = System.Windows.Forms.BorderStyle.None;
             lstAbsences.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4, columnHeader5, columnHeader6, columnHeader7, columnHeader8, columnHeader9, columnHeader10, columnHeader11 });
+            lstAbsences.Depth = 0;
             lstAbsences.FullRowSelect = true;
-            lstAbsences.GridLines = true;
             lstAbsences.Location = new System.Drawing.Point(4, 57);
             lstAbsences.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            lstAbsences.MinimumSize = new System.Drawing.Size(200, 100);
+            lstAbsences.MouseLocation = new System.Drawing.Point(-1, -1);
+            lstAbsences.MouseState = MaterialSkin.MouseState.OUT;
             lstAbsences.Name = "lstAbsences";
-            lstAbsences.Size = new System.Drawing.Size(929, 429);
+            lstAbsences.OwnerDraw = true;
+            lstAbsences.Size = new System.Drawing.Size(929, 393);
             lstAbsences.TabIndex = 1;
             lstAbsences.UseCompatibleStateImageBehavior = false;
             lstAbsences.View = System.Windows.Forms.View.Details;
@@ -382,7 +389,7 @@
             // 
             btnRemove.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             btnRemove.ForeColor = System.Drawing.Color.DarkRed;
-            btnRemove.Location = new System.Drawing.Point(825, 460);
+            btnRemove.Location = new System.Drawing.Point(825, 495);
             btnRemove.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             btnRemove.Name = "btnRemove";
             btnRemove.Size = new System.Drawing.Size(152, 44);
@@ -445,13 +452,20 @@
             // 
             // lstStudents
             // 
+            lstStudents.AutoSizeTable = false;
+            lstStudents.BackColor = System.Drawing.Color.FromArgb(255, 255, 255);
+            lstStudents.BorderStyle = System.Windows.Forms.BorderStyle.None;
             lstStudents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { IDColumn, FirstNameCol, LastNameCol, GroupCol, Parent1Name, Parent1Mobile, Parent2Name, Parent2Mobile, BackupName, BackupRole, BackupNumber });
+            lstStudents.Depth = 0;
             lstStudents.FullRowSelect = true;
-            lstStudents.GridLines = true;
             lstStudents.Location = new System.Drawing.Point(4, 61);
             lstStudents.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            lstStudents.MinimumSize = new System.Drawing.Size(200, 100);
+            lstStudents.MouseLocation = new System.Drawing.Point(-1, -1);
+            lstStudents.MouseState = MaterialSkin.MouseState.OUT;
             lstStudents.MultiSelect = false;
             lstStudents.Name = "lstStudents";
+            lstStudents.OwnerDraw = true;
             lstStudents.Size = new System.Drawing.Size(933, 373);
             lstStudents.TabIndex = 0;
             lstStudents.UseCompatibleStateImageBehavior = false;
@@ -636,12 +650,19 @@
             // lstSemesters
             // 
             lstSemesters.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            lstSemesters.AutoSizeTable = false;
+            lstSemesters.BackColor = System.Drawing.Color.FromArgb(255, 255, 255);
+            lstSemesters.BorderStyle = System.Windows.Forms.BorderStyle.None;
             lstSemesters.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnSemNo, columnSemStart, columnSemEnd });
+            lstSemesters.Depth = 0;
             lstSemesters.FullRowSelect = true;
-            lstSemesters.GridLines = true;
-            lstSemesters.Location = new System.Drawing.Point(476, 36);
+            lstSemesters.Location = new System.Drawing.Point(469, 21);
             lstSemesters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            lstSemesters.MinimumSize = new System.Drawing.Size(200, 100);
+            lstSemesters.MouseLocation = new System.Drawing.Point(-1, -1);
+            lstSemesters.MouseState = MaterialSkin.MouseState.OUT;
             lstSemesters.Name = "lstSemesters";
+            lstSemesters.OwnerDraw = true;
             lstSemesters.Size = new System.Drawing.Size(487, 478);
             lstSemesters.TabIndex = 3;
             lstSemesters.UseCompatibleStateImageBehavior = false;
@@ -832,12 +853,19 @@
             // 
             // lstGroups
             // 
+            lstGroups.AutoSizeTable = false;
+            lstGroups.BackColor = System.Drawing.Color.FromArgb(255, 255, 255);
+            lstGroups.BorderStyle = System.Windows.Forms.BorderStyle.None;
             lstGroups.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnGrp, columnMentorUser, columnnoOfStudents });
+            lstGroups.Depth = 0;
             lstGroups.FullRowSelect = true;
-            lstGroups.GridLines = true;
             lstGroups.Location = new System.Drawing.Point(8, 8);
             lstGroups.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            lstGroups.MinimumSize = new System.Drawing.Size(200, 100);
+            lstGroups.MouseLocation = new System.Drawing.Point(-1, -1);
+            lstGroups.MouseState = MaterialSkin.MouseState.OUT;
             lstGroups.Name = "lstGroups";
+            lstGroups.OwnerDraw = true;
             lstGroups.Size = new System.Drawing.Size(566, 477);
             lstGroups.TabIndex = 0;
             lstGroups.UseCompatibleStateImageBehavior = false;
@@ -912,12 +940,19 @@
             // 
             // lstUsers
             // 
+            lstUsers.AutoSizeTable = false;
+            lstUsers.BackColor = System.Drawing.Color.FromArgb(255, 255, 255);
+            lstUsers.BorderStyle = System.Windows.Forms.BorderStyle.None;
             lstUsers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { usernameColumn, firstNameColumn, lastNameColumn, userRoleCol, loggedInCol });
+            lstUsers.Depth = 0;
             lstUsers.FullRowSelect = true;
-            lstUsers.GridLines = true;
             lstUsers.Location = new System.Drawing.Point(8, 8);
             lstUsers.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            lstUsers.MinimumSize = new System.Drawing.Size(200, 100);
+            lstUsers.MouseLocation = new System.Drawing.Point(-1, -1);
+            lstUsers.MouseState = MaterialSkin.MouseState.OUT;
             lstUsers.Name = "lstUsers";
+            lstUsers.OwnerDraw = true;
             lstUsers.Size = new System.Drawing.Size(753, 477);
             lstUsers.TabIndex = 1;
             lstUsers.UseCompatibleStateImageBehavior = false;
@@ -1051,12 +1086,19 @@
             // 
             // lstLessons
             // 
+            lstLessons.AutoSizeTable = false;
+            lstLessons.BackColor = System.Drawing.Color.FromArgb(255, 255, 255);
+            lstLessons.BorderStyle = System.Windows.Forms.BorderStyle.None;
             lstLessons.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnLessonID, columnLessonName });
+            lstLessons.Depth = 0;
             lstLessons.FullRowSelect = true;
-            lstLessons.GridLines = true;
             lstLessons.Location = new System.Drawing.Point(4, 3);
             lstLessons.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            lstLessons.MinimumSize = new System.Drawing.Size(200, 100);
+            lstLessons.MouseLocation = new System.Drawing.Point(-1, -1);
+            lstLessons.MouseState = MaterialSkin.MouseState.OUT;
             lstLessons.Name = "lstLessons";
+            lstLessons.OwnerDraw = true;
             lstLessons.Size = new System.Drawing.Size(599, 482);
             lstLessons.TabIndex = 1;
             lstLessons.UseCompatibleStateImageBehavior = false;
@@ -1074,7 +1116,8 @@
             // 
             // logOut
             // 
-            logOut.BackColor = System.Drawing.Color.White;
+            logOut.BackColor = System.Drawing.Color.Red;
+            logOut.ForeColor = System.Drawing.Color.Red;
             logOut.ImageKey = "logout.png";
             logOut.Location = new System.Drawing.Point(4, 74);
             logOut.Name = "logOut";
@@ -1084,7 +1127,7 @@
             // 
             // tabImages
             // 
-            tabImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            tabImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth16Bit;
             tabImages.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("tabImages.ImageStream");
             tabImages.TransparentColor = System.Drawing.Color.Transparent;
             tabImages.Images.SetKeyName(0, "clipboard-user-solid.png");
@@ -1160,7 +1203,7 @@
         private System.Windows.Forms.Button btnRegister;
         private System.Windows.Forms.TabPage usersPage;
         private System.Windows.Forms.TabPage datesPage;
-        private System.Windows.Forms.ListView lstUsers;
+        private MaterialSkin.Controls.MaterialListView lstUsers;
         private System.Windows.Forms.ColumnHeader usernameColumn;
         private System.Windows.Forms.ColumnHeader firstNameColumn;
         private System.Windows.Forms.ColumnHeader lastNameColumn;
@@ -1170,7 +1213,7 @@
         private System.Windows.Forms.TabPage tabStudents;
         private System.Windows.Forms.TabPage tabGroups;
         private System.Windows.Forms.Button btnFeedPost;
-        private System.Windows.Forms.ListView lstStudents;
+        private MaterialSkin.Controls.MaterialListView lstStudents;
         private System.Windows.Forms.ColumnHeader IDColumn;
         private System.Windows.Forms.ColumnHeader FirstNameCol;
         private System.Windows.Forms.ColumnHeader LastNameCol;
@@ -1194,7 +1237,7 @@
         private System.Windows.Forms.ComboBox cmbAbsentGroups;
         private System.Windows.Forms.DateTimePicker dtRegistrar;
         private System.Windows.Forms.Button btnGroupAbsent;
-        private System.Windows.Forms.ListView lstAbsences;
+        private MaterialSkin.Controls.MaterialListView lstAbsences;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
@@ -1210,7 +1253,7 @@
         private System.Windows.Forms.Button btnShowAllStudents;
         private System.Windows.Forms.TextBox txtGroup;
         private System.Windows.Forms.Button btnAddGroup;
-        private System.Windows.Forms.ListView lstGroups;
+        private MaterialSkin.Controls.MaterialListView lstGroups;
         private System.Windows.Forms.ColumnHeader columnGrp;
         private System.Windows.Forms.ColumnHeader columnMentorUser;
         private System.Windows.Forms.ColumnHeader columnnoOfStudents;
@@ -1226,7 +1269,7 @@
         private System.Windows.Forms.Button btnTransferStudents;
         private System.Windows.Forms.OpenFileDialog uploadSchDiag;
         private System.Windows.Forms.TabPage tabLessons;
-        private System.Windows.Forms.ListView lstLessons;
+        private MaterialSkin.Controls.MaterialListView lstLessons;
         private System.Windows.Forms.ColumnHeader columnLessonID;
         private System.Windows.Forms.ColumnHeader columnLessonName;
         private System.Windows.Forms.ColumnHeader userRoleCol;
@@ -1244,7 +1287,7 @@
         private System.Windows.Forms.DateTimePicker dtFinal;
         private System.Windows.Forms.DateTimePicker dtInitial;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.ListView lstSemesters;
+        private MaterialSkin.Controls.MaterialListView lstSemesters;
         private System.Windows.Forms.ColumnHeader columnSemNo;
         private System.Windows.Forms.ColumnHeader columnSemStart;
         private System.Windows.Forms.ColumnHeader columnSemEnd;
